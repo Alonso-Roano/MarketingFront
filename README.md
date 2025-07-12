@@ -69,9 +69,9 @@ src/
 │   ├── routes/         # Definición de rutas de navegación
 │   ├── services/       # Servicios reutilizables
 │   ├── style/          # Estilos globales o de tema
-│   ├── App.vue             # Componente principal de la aplicación
-│   ├── main.ts             # Punto de entrada de la aplicación
-│   └── vite-env.d.ts       # Definiciones de tipos para Vite
+│   ├── App.vue         # Componente principal de la aplicación
+│   ├── main.ts         # Punto de entrada de la aplicación
+│   └── vite-env.d.ts   # Definiciones de tipos para Vite
 ├── landing/            # Módulo para la página de aterrizaje (landing page)
 │   ├── interfaces/     # Tipos e interfaces TS
 │   ├── json/           # Datos en formato JSON
