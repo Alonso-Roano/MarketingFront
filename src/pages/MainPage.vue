@@ -15,7 +15,7 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-center space-x-8 ">
               <a href="#" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Home</a>
-              <a href="#features" class="text-gray-300  px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Features</a>
+              <a href="#features" class="text-gray-300 hover:text-white  px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Features</a>
               <a href="#testimonials" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Testimonials</a>
               <a href="#contact" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Contact</a>
             </div>
@@ -85,13 +85,13 @@
       </div>
     </section>
     <section class="dark mt-50">
-      <span class=" text-white block text-center text-4xl font-semibold pt-5 pb-7   ">Conoce las funcionalidades de  <strong>NIUX</strong> </span>
+      <span class=" text-white block text-center text-4xl font-semibold pt-5 pb-7    ">Conoce las funcionalidades de  <strong>NIUX</strong> </span>
       <span class="text-center text-lg font-light block text-white/90 tracking-wider pb-12">Nuestros servicios te ayudarán a mejorar tus procesos de <span class=" relative inline-block bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent capitalize font-bold">marketing </span></span>
-  <BentoGrid class="mx-auto max-w-4xl">
+  <BentoGrid class="mx-auto max-w-4xl ">
     <BentoGridItem
       v-for="(item, index) in items"
       :key="index"
-      :class="index === 3 || index === 6 ? 'md:col-span-2' : ''"
+      :class="index === 3 || index === 6 ? 'md:col-span-2 intersect-once intersect:motion-preset-fade' : ' intersect-once intersect:motion-preset-fade'"
     >
       <template #header>
         <div class="flex size-full animate-pulse space-x-4">
@@ -113,7 +113,7 @@
 </section>
     <section class=" dark">
       <div class="flex flex-col gap-4 py-12 text-center text-black  dark:text-white dark:bg-black">
-      <div class="text-3xl font-semibold sm:text-4xl">What people say about us</div>
+      <div class="text-3xl font-semibold sm:text-4xl   ">What people say about us</div>
       <div class="text-lg font-light sm:text-xl">
         Here's what people say about <strong> Inspira UI</strong>
       </div>
@@ -164,6 +164,7 @@
   </div>
 </section>
 
+
 </main>
   </template>
 
@@ -177,9 +178,11 @@ import { ref } from 'vue'
 import BentoGrid from '@/components/ui/bento-grid/BentoGrid.vue'
 import BentoGridItem from '@/components/ui/bento-grid/BentoGridItem.vue'
 import InteractiveHoverButton from '@/components/ui/interactive-hover-button/InteractiveHoverButton.vue'
-
-
-
+import { Observer } from 'tailwindcss-intersect';
+import { onMounted } from 'vue';
+onMounted(() => {
+    Observer.start();
+})
 // Reviews data
 const reviews = [
   {
