@@ -1,0 +1,22 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@admin/*": ["src/admin/*"],
+      "@auth/*": ["src/auth/*"],
+      "@client/*": ["src/client/*"],
+      "@core/*": ["src/core/*"],
+      "@shared/*": ["src/shared/*"],
+      "@pages/*": ["src/pages/*"],
+      "@landing/*": ["src/landing/*"],
+      "@assets/*": ["src/assets/*"]
+    },
+    "types": ["node"]
+  }
+}
