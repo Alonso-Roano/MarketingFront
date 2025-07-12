@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from "@pages/HomePage.vue";
 import AboutPage from "@pages/AboutPage.vue";
+import LandingPAge from '@/landing/pages/LandingPage.vue';
 
 
 const routes = [
@@ -14,6 +15,12 @@ const routes = [
     name: 'About',
     component: () => AboutPage,
   },
+  {
+    path: '/landing/:id',
+    name: 'LandingPage',
+    component: ()=> LandingPAge,
+    props: true
+  }
 ]
 
 const router = createRouter({

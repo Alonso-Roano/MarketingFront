@@ -98,7 +98,7 @@ apiClient.interceptors.response.use(
 
 export interface ApiRequestOptions {
   key: string
-  params?: Record<string, string | number>
+  params?: Record<string, string | number | string[]>
   data?: any
   config?: AxiosRequestConfig
   backend?: keyof typeof BASE_URLS

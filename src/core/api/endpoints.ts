@@ -6,28 +6,33 @@ const endpoints = {
     logout: { method: 'POST', url: '/auth/v1/logout' },
     user: { method: 'GET', url: '/auth/v1/user' },
   },
-  alertas: {
-    listar: { method: 'GET', url: '/functions/v1/alertas' },
-    obtener: { method: 'GET', url: '/functions/v1/alertas/{id}' },
-    crear: { method: 'POST', url: '/functions/v1/alertas' },
-    actualizar: { method: 'PUT', url: '/functions/v1/alertas/{id}' },
-    eliminar: { method: 'DELETE', url: '/functions/v1/alertas/{id}' },
+  landing: {
+    listar: { method: 'GET', url: '/functions/v1/landing' },
+    obtener: { method: 'GET', url: '/functions/v1/landing/{id}' },
+    crear: { method: 'POST', url: '/functions/v1/landing' },
+    actualizar: { method: 'PUT', url: '/functions/v1/landing/{id}' },
+    eliminar: { method: 'DELETE', url: '/functions/v1/landing/{id}' },
   },
-  pacientes: {
-    listar: { method: 'GET', url: '/functions/v1/pacientes' },
-    obtener: { method: 'GET', url: '/functions/v1/pacientes/{id}' },
-    crear: { method: 'POST', url: '/functions/v1/pacientes' },
-    actualizar: { method: 'PUT', url: '/functions/v1/pacientes/{id}' },
-    eliminar: { method: 'DELETE', url: '/functions/v1/pacientes/{id}' },
+  project: {
+    listar: { method: 'GET', url: '/functions/v1/project' },
+    obtener: { method: 'GET', url: '/functions/v1/project/{id}' },
+    crear: { method: 'POST', url: '/functions/v1/project' },
+    actualizar: { method: 'PUT', url: '/functions/v1/project/{id}' },
+    eliminar: { method: 'DELETE', url: '/functions/v1/project/{id}' },
   },
-  perfil: {
-    obtener: { method: 'GET', url: '/functions/v1/perfil' },
-    crear: { method: 'POST', url: '/functions/v1/perfil' },
-    actualizar: { method: 'PUT', url: '/functions/v1/perfil/{id}' },
+  projectData: {
+    listar: { method: 'GET', url: '/functions/v1/project-data' },
+    obtener: { method: 'GET', url: '/functions/v1/project-data/{id}' },
+    crear: { method: 'POST', url: '/functions/v1/project-data' },
+    actualizar: { method: 'PUT', url: '/functions/v1/project-data/{id}' },
+    eliminar: { method: 'DELETE', url: '/functions/v1/project-data/{id}' },
   },
-  invitacion: {
-    crear: { method: 'GET', url: '/functions/v1/invitacion/crear-invitacion' },
-    aceptar: { method: 'GET', url: '/functions/v1/invitacion/aceptar-invitacion' }, //se debe concatenar en apiRequest un token asi apiRequest(invitacion.aceptar, {token: tokenInvitacion})
+  projectPrediction: {
+    listar: { method: 'GET', url: '/functions/v1/project-prediction' },
+    obtener: { method: 'GET', url: '/functions/v1/project-prediction/{id}' },
+    crear: { method: 'POST', url: '/functions/v1/project-prediction' },
+    actualizar: { method: 'PUT', url: '/functions/v1/project-prediction/{id}' },
+    eliminar: { method: 'DELETE', url: '/functions/v1/project-prediction/{id}' },
   }
 }
 
