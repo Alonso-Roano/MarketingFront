@@ -243,11 +243,6 @@ Este diagrama ilustra que:
 ### Requisitos
 
 * Node.js ≥ 18
-* Expo CLI:
-
-  ```bash
-  npm install -g expo-cli
-  ```
 
 ### Variables de Entorno
 
