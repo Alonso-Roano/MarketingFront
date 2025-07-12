@@ -168,15 +168,15 @@
   </template>
 
 <script setup lang="ts">
-import FallingStarsBg from '@/components/ui/bg-falling-stars/FallingStarsBg.vue'
-import BlurReveal from '@/components/ui/blur-reveal/BlurReveal.vue'
-import FlipWords from '@/components/ui/flip-words/FlipWords.vue'
-import Marquee from '@/components/ui/marquee/Marquee.vue'
-import ReviewCard from '@/components/ui/marquee/ReviewCard.vue'
+import FallingStarsBg from '@/shared/components/ui/bg-falling-stars/FallingStarsBg.vue'
+import BlurReveal from '@/shared/components/ui/blur-reveal/BlurReveal.vue'
+import FlipWords from '@/shared/components/ui/flip-words/FlipWords.vue'
+import Marquee from '@/shared/components/ui/marquee/Marquee.vue'
+import ReviewCard from '@/shared/components/ui/marquee/ReviewCard.vue'
 import { ref } from 'vue'
-import BentoGrid from '@/components/ui/bento-grid/BentoGrid.vue'
-import BentoGridItem from '@/components/ui/bento-grid/BentoGridItem.vue'
-import InteractiveHoverButton from '@/components/ui/interactive-hover-button/InteractiveHoverButton.vue'
+import BentoGrid from '@/shared/components/ui/bento-grid/BentoGrid.vue'
+import BentoGridItem from '@/shared/components/ui/bento-grid/BentoGridItem.vue'
+import InteractiveHoverButton from '@/shared/components/ui/interactive-hover-button/InteractiveHoverButton.vue'
 
 
 
