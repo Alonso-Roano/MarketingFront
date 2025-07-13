@@ -1,41 +1,6 @@
 <template>
   <main class="bg-black">
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 z-50 w-full bg-black/80 backdrop-blur-md border-b border-neutral-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <!-- Logo -->
-          <div class="flex-shrink-0">
-            <span class=" uppercase tracking-widest cursor-pointer  font-sans text-xl font-bold bg-gradient-to-r from-gray-400 via-gray-300  to-gray-400  text-transparent bg-clip-text">
-              NIUX
-            </span>
-          </div>
-          
-          <!-- Navigation Links -->
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-center space-x-8 ">
-              <a href="#" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Home</a>
-              <a href="#features" class="text-gray-300  px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Features</a>
-              <a href="#testimonials" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Testimonials</a>
-              <a href="#contact" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Contact</a>
-            </div>
-          </div>
-          
-          <!-- Auth Buttons -->
-          <div class="flex items-center space-x-6">
-            <router-link to="/login" class="  text-white py-2  relative  rounded-md  group  text-sm font-medium transition-colors duration-200">
-              Iniciar Sesión
-              <span class=" absolute block bottom-1   w-0  group-hover:w-full    bg-white/90 rounded-full z-[-1] h-[2px] transition-all duration-200 ease-in-out"></span>
-
-            </router-link>
-            <router-link to="/register" class=" py-2 text-white  relative  text-sm font-medium  group ">
-              Registrarse
-              <span class=" absolute block bottom-1   w-0  group-hover:w-full    bg-white/90 rounded-full z-[-1] h-[2px] transition-all duration-200 ease-in-out"></span>
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <NavigationBar />
 
     <section class="relative flex min-h-screen w-full flex-col items-center justify-center pt-16">
     
@@ -168,6 +133,7 @@
   </template>
 
 <script setup lang="ts">
+import NavigationBar from '@/shared/components/NavigationBar.vue'
 import FallingStarsBg from '@/shared/components/ui/bg-falling-stars/FallingStarsBg.vue'
 import BlurReveal from '@/shared/components/ui/blur-reveal/BlurReveal.vue'
 import FlipWords from '@/shared/components/ui/flip-words/FlipWords.vue'
