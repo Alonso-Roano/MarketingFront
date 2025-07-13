@@ -12,38 +12,38 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => Login,
+    component: Login,
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => Register,
+    component: Register,
   },
   {
     path: '/',
     name: 'Home',
-    component: () => MainPage,
+    component: MainPage,
   },
   {
     path: '/profile',
     name: 'Profile',
-    component: () => ProfilePage,
+    component: ProfilePage,
     meta: { requiresAuth: true },
   },
   {
     path: '/contact',
     name: 'Contact',
-    component: () => ContactPage,
+    component: ContactPage,
   },
   {
     path: '/about',
     name: 'About',
-    component: () => AboutPage,
+    component: AboutPage,
   },
   {
     path: '/landing/:id',
     name: 'LandingPage',
-    component: ()=> LandingPAge,
+    component: LandingPAge,
     props: true
   },
   {
