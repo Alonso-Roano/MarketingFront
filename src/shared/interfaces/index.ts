@@ -1,0 +1,1 @@
+export type { PropsNavbar } from './PropsNavbar'
