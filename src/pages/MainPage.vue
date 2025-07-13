@@ -59,6 +59,7 @@
         </div>
       </div>
     </nav>
+    <NavigationBar />
 
     <section id="home" class="relative flex min-h-screen w-full flex-col items-center justify-center pt-30">
   <FallingStarsBg class="bg-black" />
@@ -194,6 +195,7 @@
   </template>
 
 <script setup lang="ts">
+import NavigationBar from '@/shared/components/NavigationBar.vue'
 import FallingStarsBg from '@/shared/components/ui/bg-falling-stars/FallingStarsBg.vue'
 import BlurReveal from '@/shared/components/ui/blur-reveal/BlurReveal.vue'
 import FlipWords from '@/shared/components/ui/flip-words/FlipWords.vue'
