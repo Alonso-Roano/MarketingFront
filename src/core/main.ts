@@ -8,6 +8,7 @@ import piniaPersistedstate from 'pinia-plugin-persistedstate'
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 
+
 // Componentes usados
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
@@ -26,6 +27,7 @@ app.use(PrimeVue, {
         preset: Aura
     }
 })
+
 
 app.component('Button', Button)
 app.component('InputText', InputText)
