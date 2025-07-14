@@ -159,6 +159,7 @@ const handleSettingsClick = () => {
 
 const handleDashboardClick = () => {
   closeDropdown()
+  router.push('/dashboard')
 }
 
 const handleLogout = async () => {

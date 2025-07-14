@@ -19,7 +19,7 @@
             <h2 class="text-xl font-semibold mb-2">{{ campaign.title }}</h2>
             <p class="text-sm text-gray-400 mb-4">{{ campaign.description }}</p>
             <button
-              class="mt-auto px-4 py-2 rounded-md text-sm bg-purple-600 hover:bg-purple-700 transition-colors"
+              class="mt-auto px-4 py-2 rounded-md text-sm bg-purple-600 hover:bg-purple-700 transition-colors cursor-pointer"
             >
               Ver detalles
             </button>
@@ -63,6 +63,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 
 const campaigns = ref([
    { title: 'Black Friday', description: 'Campaña para promoción de descuentos.' },

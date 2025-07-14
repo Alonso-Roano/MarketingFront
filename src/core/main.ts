@@ -7,7 +7,7 @@ import piniaPersistedstate from 'pinia-plugin-persistedstate'
 
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
-
+import 'primeicons/primeicons.css'
 
 // Componentes usados
 import Button from 'primevue/button'
