@@ -7,6 +7,9 @@ import ContactPage from "@pages/ContactPage.vue";
 import Login from '@auth/pages/Login.vue';
 import Register from '@auth/pages/Register.vue';
 import { useAuthStore } from '@/auth/stores/authStore';
+import Dashboard from '@/client/pages/Dashboard.vue';
+import Campaign from '@/client/pages/Campaign.vue';
+import DashboardLayout from '@/client/pages/DashboardLayout.vue';
 
 const routes = [
   {
@@ -51,6 +54,22 @@ const routes = [
     name: 'Landing',
     component:  MainPage,
   },
+ {
+    path: '/',
+    component: DashboardLayout,
+    children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: Dashboard
+      },
+      {
+        path: 'campaign',
+        name: 'campaign',
+        component: Campaign
+      },
+    ]
+  }
 ]
 
 const router = createRouter({
