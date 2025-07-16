@@ -7,11 +7,13 @@ import piniaPersistedstate from 'pinia-plugin-persistedstate'
 
 import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
-
+import 'primeicons/primeicons.css'
 
 // Componentes usados
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
+import Menubar from 'primevue/menubar';
+
 
 import './style/style.css'
 
@@ -31,5 +33,6 @@ app.use(PrimeVue, {
 
 app.component('Button', Button)
 app.component('InputText', InputText)
+app.component('Menu', Menubar)
 
 app.mount('#app');
