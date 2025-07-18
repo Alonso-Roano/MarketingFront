@@ -10,6 +10,8 @@ import { useAuthStore } from '@/auth/stores/authStore';
 import Dashboard from '@/client/pages/Dashboard.vue';
 import Campaign from '@/client/pages/Campaign.vue';
 import DashboardLayout from '@/client/pages/DashboardLayout.vue';
+import Form from '@/client/pages/PredictionToolPage.vue';
+import PredictionToolPage from '@/client/pages/PredictionToolPage.vue';
 
 const routes = [
   {
@@ -52,9 +54,10 @@ const routes = [
   {
     path: '/landing',
     name: 'Landing',
-    component:  MainPage,
+    component: MainPage,
   },
- {
+
+  {
     path: '/',
     component: DashboardLayout,
     meta: { requiresAuth: true },
@@ -69,6 +72,11 @@ const routes = [
         name: 'campaign',
         component: Campaign
       },
+      {
+        path: 'form',
+        name: 'Form',
+        component: PredictionToolPage,
+      },
     ]
   }
 ]
@@ -82,7 +90,7 @@ router.beforeEach((to, from, next) => {
   // Check if the route requires authentication
   if (to.meta.requiresAuth) {
     const authStore = useAuthStore()
-    
+
     // Check if user is authenticated
     if (!authStore.user || !authStore.accessToken) {
       // Redirect to login page if not authenticated
@@ -90,7 +98,7 @@ router.beforeEach((to, from, next) => {
       return
     }
   }
-  
+
   next()
 })
 

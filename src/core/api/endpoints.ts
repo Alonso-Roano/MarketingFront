@@ -33,7 +33,36 @@ const endpoints = {
     crear: { method: 'POST', url: '/functions/v1/project-prediction' },
     actualizar: { method: 'PUT', url: '/functions/v1/project-prediction/{id}' },
     eliminar: { method: 'DELETE', url: '/functions/v1/project-prediction/{id}' },
-  }
+  }, 
+  modelsAI: {
+    // Endpoint de IA que genera-misión-visión
+    generateMissionVision: { method: 'POST', url: '/ai21/generar-mision-vision' },
+
+    // APIS DE LOS MODELOS ML:
+    marketingImpressionsPredict: { method: 'POST', url: '/modelo/marketing_impressions/predict' },
+    marketingImpressionsInfo: { method: 'GET', url: '/modelo/marketing_impressions/info' },
+
+    marketingClicksPredict: { method: 'POST', url: '/modelo/marketing_clicks/predict' },
+    marketingClicksInfo: { method: 'GET', url: '/modelo/marketing_clicks/info' },
+
+    marketingMediaCostPredict: { method: 'POST', url: '/modelo/marketing_media_cost/predict' },
+    marketingMediaCostInfo: { method: 'GET', url: '/modelo/marketing_media_cost/info' },
+
+    marketingNoDaysPredict: { method: 'POST', url: '/modelo/marketing_no_days/predict' },
+    marketingNoDaysInfo: { method: 'GET', url: '/modelo/marketing_no_days/info' },
+
+    marketingBudgetPredict: { method: 'POST', url: '/modelo/marketing_budget/predict' },
+    marketingBudgetInfo: { method: 'GET', url: '/modelo/marketing_budget/info' },
+
+    marketingExternalServicePredict: { method: 'POST', url: '/modelo/marketing_external_service/predict' },
+    marketingExternalServiceInfo: { method: 'GET', url: '/modelo/marketing_external_service/info' },
+
+    marketingWeekDayPredict: { method: 'POST', url: '/modelo/marketing_week_day/predict' },
+    marketingWeekDayInfo: { method: 'GET', url: '/modelo/marketing_week_day/info' },
+
+    marketingChannelNamePredict: { method: 'POST', url: '/modelo/marketing_chanel_name/predict' },
+    marketingChannelNameInfo: { method: 'GET', url: '/modelo/marketing_chanel_name/info' },
+  },
 }
 
 export default endpoints
