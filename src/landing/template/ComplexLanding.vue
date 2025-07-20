@@ -18,7 +18,7 @@
         />
       </div>
       <img
-        :src="data?.hero.imagen"
+        :src="''+data?.hero.imagen"
         alt="Hero image"
         class="md:w-1/2 mt-8 md:mt-0 rounded-lg shadow-lg"
       />

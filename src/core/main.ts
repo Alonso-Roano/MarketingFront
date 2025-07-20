@@ -14,6 +14,7 @@ import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 
 import './style/style.css'
+import 'primeicons/primeicons.css';
 
 const pinia = createPinia()
 pinia.use(piniaPersistedstate)
