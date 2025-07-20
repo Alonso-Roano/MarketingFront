@@ -33,6 +33,12 @@ const endpoints = {
     crear: { method: 'POST', url: '/functions/v1/project-prediction' },
     actualizar: { method: 'PUT', url: '/functions/v1/project-prediction/{id}' },
     eliminar: { method: 'DELETE', url: '/functions/v1/project-prediction/{id}' },
+  },
+  MinOS: {
+    cargar: { method: 'GET', url: '/minios/get-file' },
+  },
+  stats: {
+    listar: { method: 'GET', url: '/functions/v1/stats' },
   }
 }
 

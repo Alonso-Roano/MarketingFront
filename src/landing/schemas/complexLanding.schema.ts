@@ -4,7 +4,7 @@ export const complex = z.object({
     hero: z.object({
       titulo: z.string(),
       subtitulo: z.string(),
-      imagen: z.string().url(),
+      imagen: z.string(),
       ctaText: z.string()
     }),
     features: z.array(

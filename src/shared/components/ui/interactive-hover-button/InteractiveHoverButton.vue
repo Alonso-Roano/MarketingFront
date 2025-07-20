@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { ref } from "vue";
 
 interface Props {

@@ -41,7 +41,7 @@ export const landingPageSchema = z.object({
       z.object({
         text: z.string(),
         url: z.string().optional(),
-        variant: z.enum(['primary', 'secondary']).default('primary'),
+        variant: z.enum(['primary', 'secondary', 'outline']).default('primary'),
       })
     ),
   }),

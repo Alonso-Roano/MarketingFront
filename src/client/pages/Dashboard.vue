@@ -12,58 +12,45 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <KpiCard
             title="Campañas activas"
-            value="2"
+            :value="totalCampaigns"
             icon="📣"
             type="success"
             description="Actualmente en ejecución"
           />
           <KpiCard
             title="Presupuesto aprobado"
-            value="$8,500.00"
+            :value="`$${totalApprovedBudget.toLocaleString()}`"
             icon="💰"
             type="neutral"
             description="Total asignado este mes"
           />
           <KpiCard
             title="Impresiones totales"
-            value="120,000"
+            :value="totalImpressions.toLocaleString()"
             icon="👁️"
             type="neutral"
             description="Visibilidad alcanzada"
           />
           <KpiCard
-            title="CTR promedio"
-            value="2.78%"
+            title="Clicks predichos"
+            :value="totalClicks.toLocaleString()"
             icon="📈"
             type="warning"
-            description="Ratio de clics por impresión"
+            description="Interacciones esperadas"
           />
         </div>
       </section>
 
       <!-- Gráfico + Herramientas en 2 columnas -->
-      <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <section class="grid grid-cols-1 lg:grid-cols-1 gap-6">
         <!-- Gráfico (2/3) -->
         <div class="lg:col-span-2 bg-[#1e1e1e] p-6 rounded-lg shadow-lg">
           <h2 class="text-lg font-semibold mb-4">Predicción vs Realidad</h2>
-          <div class="h-64 w-full bg-gray-800 rounded-lg flex items-center justify-center text-gray-400 italic">
-            (Aquí iría una gráfica de rendimiento...)
+          <div class=" w-full">
+            <LineChart :data="chartData" />
           </div>
         </div>
 
-        <!-- Herramientas IA (1/3) -->
-        <div class="bg-gradient-to-br from-purple-700 to-purple-900 p-6 rounded-lg shadow-lg text-white flex items-center justify-center text-center">
-          <div>
-            <h2 class="text-lg font-semibold mb-4">Herramientas Inteligentes</h2>
-            <p class="mb-6 text-sm opacity-90">Genera automáticamente misión, visión y recomendaciones para tus campañas.</p>
-            <button
-              class="px-6 py-3 bg-white text-purple-700 font-semibold rounded-md hover:bg-gray-100 transition cursor-pointer"
-            >
-              Generar con IA  <span class=" p-1 pi pi-sparkles" />
-            </button>
-            
-          </div>
-        </div>
       </section>
 
       <!-- Tabla de campañas recientes -->
@@ -106,11 +93,41 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import KpiCard from '@/shared/components/Dashboard/KpiCard.vue'
+import LineChart from '@shared/components/Charts/LineChart.vue'
+import { apiRequest } from '@/core/api/apiClient'
 
-const sampleCampaigns = [
-  { nombre: 'Black Friday 2024', canal: 'Instagram', presupuesto: 2500, clicks: 680, estado: 'Activa' },
-  { nombre: 'Lanzamiento App', canal: 'YouTube', presupuesto: 1800, clicks: 430, estado: 'Activa' },
-  { nombre: 'Campaña Primavera', canal: 'Google Ads', presupuesto: 1200, clicks: 210, estado: 'Finalizada' },
-]
+const totalCampaigns = ref(0)
+const totalApprovedBudget = ref(0)
+const totalImpressions = ref(0)
+const totalClicks = ref(0)
+const chartData = ref([])
+const sampleCampaigns = ref<any[]>([])
+
+onMounted(async () => {
+  try {
+    const res = await apiRequest<any>({key:"stats.listar"})
+    if (!res.success) throw new Error()
+    const data = res.data;
+    totalCampaigns.value = data.totalCampaigns
+    totalApprovedBudget.value = data.totalApprovedBudgetPredicted
+    totalImpressions.value = data.totalPredictedImpressions
+    totalClicks.value = data.totalPredictedClicks
+    chartData.value = data.chartData
+
+    sampleCampaigns.value = data.projects.map((p: any) => {
+      const pred = p.project_prediction[0] || {}
+      return {
+        nombre: p.nombre,
+        canal: pred.channel_name || 'N/A',
+        presupuesto: Number(pred.approved_budget || 0).toLocaleString(),
+        clicks: pred.clicks || 0,
+        estado: 'Activa'
+      }
+    })
+  } catch (err) {
+    console.error('Error al cargar dashboard:', err)
+  }
+})
 </script>

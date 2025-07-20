@@ -5,6 +5,6 @@ export const landingTemplateMap:any = {
   "complex-landing": () =>
     import("@landing/template/ComplexLanding.vue"),
 
-  "enterprise-landing": ()=>
+  "default": ()=>
     import("@/landing/template/NewLanding.vue")
 };

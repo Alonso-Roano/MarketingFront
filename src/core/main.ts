@@ -16,6 +16,7 @@ import Menubar from 'primevue/menubar';
 
 
 import './style/style.css'
+import 'primeicons/primeicons.css';
 
 const pinia = createPinia()
 pinia.use(piniaPersistedstate)

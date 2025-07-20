@@ -90,7 +90,7 @@
                 class="w-12 h-12 rounded-full bg-gray-200 mr-4 overflow-hidden"
               >
                 <img 
-                  :src="testimonial.avatar" 
+                  :src="testimonialAvatars[index] || '/images/avatar-placeholder.png'"
                   :alt="testimonial.name"
                   class="w-full h-full object-cover"
                 >
@@ -156,21 +156,49 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
+import loadImage from '../services/loadImages';
+import { ref } from 'vue';
+import { watchEffect } from 'vue';
+
 
 const props = defineProps({
   data: Object
 });
 
+const heroBackgroundImage = ref('');
+const testimonialAvatars = reactive<Record<number, string>>({});
+
+watchEffect(async () => {
+  if (props.data?.testimonials?.items) {
+    for (const [index, testimonial] of props.data.testimonials.items.entries()) {
+      if (testimonial.avatar) {
+        const url = await loadImage(testimonial.avatar);
+        testimonialAvatars[index] = url;
+      }
+    }
+  }
+});
+
+
+watchEffect(async () => {
+  if (props.data?.hero.backgroundImage) {
+    const url = await loadImage(props.data.hero.backgroundImage);
+    heroBackgroundImage.value = `url(${url})`;
+    console.log("Hola")
+  } else {
+    heroBackgroundImage.value = `linear-gradient(135deg, var(--primary-color), var(--secondary-color))`;
+  }
+});
+
 // Compute dynamic styles
 const heroBackgroundStyle = computed(() => ({
-  backgroundImage: props.data?.hero.backgroundImage 
-    ? `url(${props.data?.hero.backgroundImage})` 
-    : `linear-gradient(135deg, var(--primary-color), var(--secondary-color))`,
+  backgroundImage: heroBackgroundImage.value,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  color: 'white'
+  color: 'white',
 }));
+
 
 // Handle CTA button clicks
 const handleCtaClick = (button:any) => {
