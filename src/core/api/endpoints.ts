@@ -36,6 +36,9 @@ const endpoints = {
   },
   MinOS: {
     cargar: { method: 'GET', url: '/minios/get-file' },
+  },
+  stats: {
+    listar: { method: 'GET', url: '/functions/v1/stats' },
   }
 }
 
