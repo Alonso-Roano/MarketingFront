@@ -64,12 +64,12 @@ const routes = [
     children: [
       {
         path: 'dashboard',
-        name: 'dashboard',
+        name: 'Dashboard',
         component: Dashboard
       },
       {
         path: 'campaign',
-        name: 'campaign',
+        name: 'Campaign',
         component: Campaign
       },
       {

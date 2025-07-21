@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen px-6 py-10 bg-black text-white">
-    <div class="w-7xl mx-auto space-y-12">
+    <div class="w-full mx-auto space-y-12 ">
       <!-- Encabezado -->
       <section>
         <h1 class="text-3xl font-bold">Panel de Control</h1>

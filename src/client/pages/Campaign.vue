@@ -1,18 +1,18 @@
 <template>
   <div class="min-h-screen px-6 py-10 bg-black text-white">
     <!-- Encabezado -->
-    <div class="max-w-7xl mx-auto">
+    <div class=" w-full  mx-auto">
       <div class="mb-10">
         <h1 class="text-3xl font-bold tracking-tight">Campañas de Marketing</h1>
         <p class="text-gray-400 mt-2">Aquí puedes gestionar tus campañas activas o crear nuevas.</p>
       </div>
 
       <!-- Grid de campañas -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-7xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
         <!-- Si hay campañas -->
         <template v-if="campaigns.length > 0">
           <div v-for="(campaign, i) in campaigns" :key="i"
-            class="bg-gradient-to-br from-[#2b2b2b] to-[#1a1a1a] border border-gray-800 rounded-xl p-6 shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
+            class="bg-gradient-to-br from-[#2b2b2b] to-[#1a1a1a] border border-neutral-800 rounded-xl p-6 shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
             <h2 class="text-xl font-semibold mb-2">{{ campaign.title }}</h2>
             <p class="text-sm text-gray-400 mb-4">{{ campaign.description }}</p>
             <button
@@ -25,9 +25,9 @@
           <RouterLink to="/form">
 
             <div
-              class="flex items-center justify-center border-2 border-dashed border-gray-700 rounded-xl hover:border-purple-500 hover:shadow-purple-500/20 transition-all cursor-pointer">
+              class="flex items-center justify-center border-2 bg-black/80 border-dashed hover:bg-white/4  border-gray-700 rounded-xl   hover:shadow-purple-500/20 transition-all cursor-pointer">
               <button
-                class="flex items-center gap-2 px-6 py-4 text-sm font-medium bg-black text-white rounded-md shadow-md transition cursor-pointer">
+                class="flex items-center gap-2 px-6 py-4 text-sm font-medium  text-white rounded-md shadow-md transition cursor-pointer">
                 <span class="pi pi-plus text-purple-400"></span>
                 Crear nueva campaña
               </button>
