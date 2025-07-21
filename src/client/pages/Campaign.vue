@@ -12,7 +12,7 @@
         <!-- Si hay campañas -->
         <template v-if="campaigns.length > 0">
           <div v-for="(campaign, i) in campaigns" :key="i"
-            class="bg-gradient-to-br from-[#2b2b2b] to-[#1a1a1a] border border-gray-800 rounded-xl p-6 shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
+            class="bg-gradient-to-br from-[#2b2b2b] to-[#1a1a1a] border border-neutral-800 rounded-xl p-6 shadow-lg hover:shadow-purple-500/30 transition-all duration-300">
             <h2 class="text-xl font-semibold mb-2">{{ campaign.title }}</h2>
             <p class="text-sm text-gray-400 mb-4">{{ campaign.description }}</p>
             <button
@@ -25,9 +25,9 @@
           <RouterLink to="/form">
 
             <div
-              class="flex items-center justify-center border-2 border-dashed border-gray-700 rounded-xl hover:border-purple-500 hover:shadow-purple-500/20 transition-all cursor-pointer">
+              class="flex items-center justify-center border-2 bg-black/80 border-dashed hover:bg-white/4  border-gray-700 rounded-xl   hover:shadow-purple-500/20 transition-all cursor-pointer">
               <button
-                class="flex items-center gap-2 px-6 py-4 text-sm font-medium bg-black text-white rounded-md shadow-md transition cursor-pointer">
+                class="flex items-center gap-2 px-6 py-4 text-sm font-medium  text-white rounded-md shadow-md transition cursor-pointer">
                 <span class="pi pi-plus text-purple-400"></span>
                 Crear nueva campaña
               </button>

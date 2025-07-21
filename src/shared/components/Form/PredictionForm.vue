@@ -1,15 +1,11 @@
 <template>
     <div>
         <!-- Elementos decorativos de fondo -->
-        <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(120,119,198,0.3),transparent_50%)] pointer-events-none">
-        </div>
-        <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.05),transparent_50%)] pointer-events-none">
-        </div>
+       
+   
 
         <!-- Partículas flotantes -->
-        <div class="absolute top-20 left-10 w-2 h-2 bg-purple-400 rounded-full animate-pulse opacity-60"></div>
+        <div class="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full animate-pulse opacity-60"></div>
         <div class="absolute top-40 right-20 w-1 h-1 bg-white rounded-full animate-ping opacity-40"></div>
         <div class="absolute bottom-32 left-1/4 w-3 h-3 bg-purple-500 rounded-full animate-bounce opacity-30"></div>
         <div class="absolute bottom-20 right-1/3 w-2 h-2 bg-indigo-400 rounded-full animate-pulse opacity-50"></div>
@@ -19,7 +15,8 @@
 
             <!-- Contenedor del formulario -->
             <div
-                class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
+
+                class="backdrop-blur-3xl bg-black/35 border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
 
                 <!-- Formulario  -->
                 <form @submit.prevent="submitForm" class="space-y-8">
@@ -41,10 +38,10 @@
                     <div class="space-y-6">
                         <div class="flex items-center space-x-3 mb-6">
                             <div
-                                class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
+                                class="w-8 h-8 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
                                 1</div>
                             <h3 class="text-xl font-semibold text-white">Detalles de la Campaña</h3>
-                            <div class="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+                            <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -95,10 +92,10 @@
                     <div class="space-y-6">
                         <div class="flex items-center space-x-3 mb-6">
                             <div
-                                class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
+                                class="w-8 h-8 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
                                 2</div>
                             <h3 class="text-xl font-semibold text-white">Plataforma Publicitaria</h3>
-                            <div class="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+                            <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -126,10 +123,10 @@
                     <div class="space-y-6">
                         <div class="flex items-center space-x-3 mb-6">
                             <div
-                                class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
+                                class="w-8 h-8 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
                                 3</div>
                             <h3 class="text-xl font-semibold text-white">Canales de Marketing</h3>
-                            <div class="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+                            <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -157,10 +154,10 @@
                     <div class="space-y-6">
                         <div class="flex items-center space-x-3 mb-6">
                             <div
-                                class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
+                                class="w-8 h-8 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
                                 4</div>
                             <h3 class="text-xl font-semibold text-white">Momento de la Semana</h3>
-                            <div class="flex-1 h-px bg-gradient-to-r from-purple-500/30 to-transparent"></div>
+                            <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -187,7 +184,7 @@
                     <!-- Botón de envío -->
                     <div class="pt-6">
                         <button type="submit" :disabled="loading || !hasAuthToken"
-                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-purple-500/25">
+                            class="w-full bg-white/90 hover:bg-white/80 text-black  font-bold py-4 px-6 rounded-md transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed transform  cursor-pointer select-none shadow-lg hover:shadow-white/25">
                             <div class="flex items-center justify-center space-x-2">
                                 <svg v-if="loading" class="animate-spin w-5 h-5" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
@@ -195,7 +192,7 @@
                                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
                                     </path>
                                 </svg>
-                                <span>{{ loading ? 'Generando Predicciones...' : 'Generar Predicciones' }}</span>
+                                <span>{{ loading ? 'Generando Predicciones...' : 'Generar Campaña' }}</span>
                             </div>
                         </button>
                     </div>
@@ -275,7 +272,9 @@ const BASE_URL = import.meta.env.VITE_PYTHON_URL || 'http://localhost:8000';
 
 // Funciones de autenticación
 const getAuthToken = (): string | null => {
-    return localStorage.getItem('authToken');
+    const auth=JSON.parse(localStorage.getItem('auth')??"")
+    if (auth) return auth.accessToken;
+    return null;
 };
 
 const hasAuthToken = computed(() => getAuthToken() !== null);
