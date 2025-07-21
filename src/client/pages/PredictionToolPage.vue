@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-900 via-black to-purple-900 relative overflow-hidden">
+  <div class="min-h-screen    bg-neutral-950/30 rounded-sm    relative overflow-hidden">
     <!-- Elementos decorativos de fondo -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(120,119,198,0.3),transparent_50%)] pointer-events-none"></div>
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.05),transparent_50%)] pointer-events-none"></div>
@@ -16,14 +16,14 @@
       <div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8 mb-8 shadow-2xl">
         <div class="text-center">
           <!-- Icono futurista -->
-          <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-2xl mb-6 shadow-lg">
+          <div class="inline-flex items-center justify-center w-16 h-16      backdrop-brightness-50  border-[0.3px] border-neutral-700 rounded-2xl mb-6 shadow-lg">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
           </div>
           
           <!-- Título principal -->
-          <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-purple-200 to-indigo-300 bg-clip-text text-transparent mb-4 tracking-tight">
+          <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-100 to-white py-2 bg-clip-text text-transparent mb-4 tracking-tight">
             Predicción de Marketing
           </h1>
           <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mb-6 rounded-full"></div>
