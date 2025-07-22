@@ -44,6 +44,8 @@ const endpoints = {
     // Endpoint de IA que genera-misión-visión
     generateMissionVision: { method: 'POST', url: '/ai21/generar-mision-vision' },
 
+    // Endpoint para subir todo
+    cargar: { method: 'POST', url: '/omni/datos' },
     // APIS DE LOS MODELOS ML:
     marketingImpressionsPredict: { method: 'POST', url: '/modelo/marketing_impressions/predict' },
     marketingImpressionsInfo: { method: 'GET', url: '/modelo/marketing_impressions/info' },

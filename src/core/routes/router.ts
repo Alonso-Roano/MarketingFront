@@ -10,8 +10,9 @@ import { useAuthStore } from '@/auth/stores/authStore';
 import Dashboard from '@/client/pages/Dashboard.vue';
 import Campaign from '@/client/pages/Campaign.vue';
 import DashboardLayout from '@/client/pages/DashboardLayout.vue';
-import Form from '@/client/pages/PredictionToolPage.vue';
 import PredictionToolPage from '@/client/pages/PredictionToolPage.vue';
+//@ts-ignore
+import Detalles from '@/client/pages/Detalles.vue';
 
 const routes = [
   {
@@ -56,7 +57,6 @@ const routes = [
     name: 'Landing',
     component: MainPage,
   },
-
   {
     path: '/',
     component: DashboardLayout,
@@ -77,6 +77,12 @@ const routes = [
         name: 'Form',
         component: PredictionToolPage,
       },
+  {
+    path: '/details/:id',
+    name: 'Details',
+    component: Detalles,
+    props: true
+  },
     ]
   }
 ]

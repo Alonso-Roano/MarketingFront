@@ -1,8 +1,8 @@
 <template>
     <div>
         <!-- Elementos decorativos de fondo -->
-       
-   
+
+
 
         <!-- Partículas flotantes -->
         <div class="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full animate-pulse opacity-60"></div>
@@ -15,7 +15,6 @@
 
             <!-- Contenedor del formulario -->
             <div
-
                 class="backdrop-blur-3xl bg-black/35 border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/10 transition-all duration-500">
 
                 <!-- Formulario  -->
@@ -31,6 +30,158 @@
                             </svg>
                             <span class="text-amber-300 font-medium">No se encontró un token de autenticación. Asegúrate
                                 de haber iniciado sesión.</span>
+                        </div>
+                    </div>
+
+                    <!-- Campos adicionales requeridos por el JSON -->
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div
+                                class="w-8 h-8 bg-gradient-to-r from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
+                                0
+                            </div>
+                            <h3 class="text-xl font-semibold text-white">Informacion de la campaña</h3>
+                            <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="nombre" class="block text-sm font-medium text-gray-300">Nombre</label>
+                                <input id="nombre" v-model="userFriendlyData.nombre" type="text"
+                                    placeholder="Ej: Campaña Invierno"
+                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300" />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="description"
+                                    class="block text-sm font-medium text-gray-300">Descripción</label>
+                                <textarea id="description" v-model="userFriendlyData.description" type="text"
+                                    placeholder="Campaña enfocada en..."
+                                    class="w-full p-3 rounded-xl resize-none bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300" />
+                            </div>
+                            
+                            <!-- Tamaño -->
+                            <div class="space-y-2 relative" ref="sizeDropdownRef">
+                                <label for="size" class="block text-sm font-medium text-gray-300">Tamaño</label>
+                                <div @click="sizeDropdownOpen = !sizeDropdownOpen"
+                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm cursor-pointer flex items-center justify-between">
+                                    <span>{{ userFriendlyData.size || 'Selecciona un tamaño' }}</span>
+                                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                <ul v-if="sizeDropdownOpen"
+                                    class="absolute z-50 w-full  rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2">
+                                    <li v-for="option in sizeOptions" :key="option" @click="selectSize(option)"
+                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
+                                        {{ option }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Alcance -->
+                            <div class="space-y-2 relative" ref="scopeDropdownRef">
+                                <label for="scope" class="block text-sm font-medium text-gray-300">Alcance</label>
+                                <div @click="scopeDropdownOpen = !scopeDropdownOpen"
+                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm cursor-pointer flex items-center justify-between">
+                                    <span>{{ userFriendlyData.scope || 'Selecciona un alcance' }}</span>
+                                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                <ul v-if="scopeDropdownOpen"
+                                    class="absolute z-50 w-full  rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2">
+                                    <li v-for="option in scopeOptions" :key="option" @click="selectScope(option)"
+                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
+                                        {{ option }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Industria -->
+                            <div class="space-y-2 relative" ref="industryDropdownRef">
+                                <label for="industry" class="block text-sm font-medium text-gray-300">Industria</label>
+                                <div @click="industryDropdownOpen = !industryDropdownOpen"
+                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm cursor-pointer flex items-center justify-between">
+                                    <span>{{ userFriendlyData.industry || 'Selecciona una industria' }}</span>
+                                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                                <ul v-if="industryDropdownOpen"
+                                    class="absolute z-50 w-full  rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2">
+                                    <li v-for="option in industryOptions" :key="option" @click="selectIndustry(option)"
+                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
+                                        {{ option }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="space-y-2 relative" ref="dropdownRef">
+                                <label for="icono" class="block text-sm font-medium text-gray-300">Ícono</label>
+
+                                <!-- Botón de selección -->
+                                <button type="button" @click="iconDropdownOpen = !iconDropdownOpen"
+                                    class="w-full p-3 flex items-center justify-between rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 text-white">
+                                    <div class="flex items-center space-x-2">
+                                        <i :class="userFriendlyData.icono" class="text-xl"
+                                            v-if="userFriendlyData.icono"></i>
+                                        <span>{{ selectedIconLabel || 'Selecciona un ícono' }}</span>
+                                    </div>
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+
+                                <!-- Lista de opciones -->
+                                <ul v-if="iconDropdownOpen"
+                                    class="absolute z-50 max-h-60 w-full overflow-y-auto rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg">
+                                    <li v-for="icon in iconOptions" :key="icon.class" @click="selectIcon(icon)"
+                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
+                                        <i :class="icon.class" class="text-xl" />
+                                        <span>{{ icon.label }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="space-y-2 relative" ref="colorDropdownRef">
+                                <label for="primary_color" class="block text-sm font-medium text-gray-300">Color
+                                    Primario</label>
+
+                                <div class="relative">
+                                    <div @click="colorDropdownOpen = !colorDropdownOpen"
+                                        class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 cursor-pointer flex items-center justify-between">
+                                        <div class="flex items-center space-x-2">
+                                            <div :style="{ backgroundColor: userFriendlyData.primary_color }"
+                                                class="w-5 h-5 rounded-full border border-white/20"></div>
+                                            <span>{{ userFriendlyData.primary_color || 'Selecciona un color' }}</span>
+                                        </div>
+                                        <svg class="w-4 h-4 text-white opacity-50" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+
+                                    <!-- Dropdown -->
+                                    <div v-if="colorDropdownOpen"
+                                        class="absolute z-50 mt-2 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-xl shadow-lg grid grid-cols-5 gap-2 p-3">
+                                        <div v-for="color in neonColorOptions" :key="color"
+                                            @click="userFriendlyData.primary_color = color; colorDropdownOpen = false"
+                                            :style="{ backgroundColor: color }"
+                                            class="w-8 h-8 rounded-full cursor-pointer border-2 border-white/10 hover:scale-110 transition transform ring-2 ring-transparent"
+                                            :class="{ 'ring-white/50': userFriendlyData.primary_color === color }">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -192,7 +343,7 @@
                                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
                                     </path>
                                 </svg>
-                                <span>{{ loading ? 'Generando Predicciones...' : 'Generar Campaña' }}</span>
+                                <span>{{ loading ? currentLoadingMessage : 'Generar Campaña' }}</span>
                             </div>
                         </button>
                     </div>
@@ -229,310 +380,45 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
+import { useDropdowns } from '@client/services/formService';
 
-// Tipos e interfaces
-interface UserFriendlyFormData {
-    no_of_days: number;
-    approved_budget: number;
-    clicks: number;
-    impressions: number;
-    selected_ext_service: number;
-    selected_channel: number;
-    selected_weekday_cat: number;
-}
+const {
+  userFriendlyData,
+  iconDropdownOpen,
+  iconOptions,
+  selectedIconLabel,
+  selectIcon,
+  dropdownRef,
 
-interface SelectOption {
-    value: number;
-    label: string;
-}
+  sizeOptions,
+  scopeOptions,
+  industryOptions,
 
-interface FormData {
-    no_of_days: number;
-    approved_budget: number;
-    clicks: number;
-    impressions: number;
-    ext_service_name_DV360: number;
-    ext_service_name_Facebook_Ads: number;
-    ext_service_name_Google_Ads: number;
-    channel_name_Display: number;
-    channel_name_Mobile: number;
-    channel_name_Search: number;
-    channel_name_Social: number;
-    channel_name_Video: number;
-    weekday_cat_week_day: number;
-    weekday_cat_week_end: number;
-    ext_service_name_enc: number;
-    channel_name_enc: number;
-    weekday_cat_enc: number;
-}
+  sizeDropdownOpen,
+  scopeDropdownOpen,
+  industryDropdownOpen,
 
-// Configuración
-const BASE_URL = import.meta.env.VITE_PYTHON_URL || 'http://localhost:8000';
+  sizeDropdownRef,
+  scopeDropdownRef,
+  industryDropdownRef,
 
-// Funciones de autenticación
-const getAuthToken = (): string | null => {
-    const auth=JSON.parse(localStorage.getItem('auth')??"")
-    if (auth) return auth.accessToken;
-    return null;
-};
+  selectSize,
+  selectScope,
+  selectIndustry,
 
-const hasAuthToken = computed(() => getAuthToken() !== null);
-
-// Datos del formulario
-const userFriendlyData: UserFriendlyFormData = reactive({
-    no_of_days: 1,
-    approved_budget: 1000,
-    clicks: 50,
-    impressions: 1000,
-    selected_ext_service: 0,
-    selected_channel: 0,
-    selected_weekday_cat: 0,
-});
-
-// Opciones para los selects
-const externalServiceOptions: SelectOption[] = [
-    { value: 0, label: 'DV360' },
-    { value: 1, label: 'Facebook Ads' },
-    { value: 2, label: 'Google Ads' },
-];
-
-const channelOptions: SelectOption[] = [
-    { value: 0, label: 'Display' },
-    { value: 1, label: 'Mobile' },
-    { value: 2, label: 'Search' },
-    { value: 3, label: 'Social' },
-    { value: 4, label: 'Video' },
-];
-
-const weekdayOptions: SelectOption[] = [
-    { value: 0, label: 'Día de Semana (L-V)' },
-    { value: 1, label: 'Fin de Semana (S-D)' },
-];
-
-// Estados de la aplicación
-const loading = ref(false);
-const error = ref<string | null>(null);
-const successMessage = ref<string | null>(null);
-
-// Transformar datos para el backend
-const transformToBackendFormData = (data: UserFriendlyFormData): FormData => {
-    return {
-        no_of_days: data.no_of_days,
-        approved_budget: data.approved_budget,
-        clicks: data.clicks,
-        impressions: data.impressions,
-        ext_service_name_DV360: data.selected_ext_service === 0 ? 1 : 0,
-        ext_service_name_Facebook_Ads: data.selected_ext_service === 1 ? 1 : 0,
-        ext_service_name_Google_Ads: data.selected_ext_service === 2 ? 1 : 0,
-        channel_name_Display: data.selected_channel === 0 ? 1 : 0,
-        channel_name_Mobile: data.selected_channel === 1 ? 1 : 0,
-        channel_name_Search: data.selected_channel === 2 ? 1 : 0,
-        channel_name_Social: data.selected_channel === 3 ? 1 : 0,
-        channel_name_Video: data.selected_channel === 4 ? 1 : 0,
-        weekday_cat_week_day: data.selected_weekday_cat === 0 ? 1 : 0,
-        weekday_cat_week_end: data.selected_weekday_cat === 1 ? 1 : 0,
-        ext_service_name_enc: data.selected_ext_service,
-        channel_name_enc: data.selected_channel,
-        weekday_cat_enc: data.selected_weekday_cat,
-    };
-};
-
-// Configuración de modelos
-const modelsConfig = [
-    {
-        endpoint: '/modelo/marketing_impressions/predict',
-        key: 'prediction_marketing_impressions',
-        getPayload: (data: FormData) => ({
-            no_of_days: data.no_of_days,
-            approved_budget: data.approved_budget,
-            ext_service_name_DV360: data.ext_service_name_DV360,
-            ext_service_name_Facebook_Ads: data.ext_service_name_Facebook_Ads,
-            ext_service_name_Google_Ads: data.ext_service_name_Google_Ads,
-            channel_name_Display: data.channel_name_Display,
-            channel_name_Mobile: data.channel_name_Mobile,
-            channel_name_Search: data.channel_name_Search,
-            channel_name_Social: data.channel_name_Social,
-            channel_name_Video: data.channel_name_Video,
-            weekday_cat_week_day: data.weekday_cat_week_day,
-            weekday_cat_week_end: data.weekday_cat_week_end,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_clicks/predict',
-        key: 'prediction_marketing_clicks',
-        getPayload: (data: FormData) => ({
-            no_of_days: data.no_of_days,
-            approved_budget: data.approved_budget,
-            ext_service_name_DV360: data.ext_service_name_DV360,
-            ext_service_name_Facebook_Ads: data.ext_service_name_Facebook_Ads,
-            ext_service_name_Google_Ads: data.ext_service_name_Google_Ads,
-            channel_name_Display: data.channel_name_Display,
-            channel_name_Mobile: data.channel_name_Mobile,
-            channel_name_Search: data.channel_name_Search,
-            channel_name_Social: data.channel_name_Social,
-            channel_name_Video: data.channel_name_Video,
-            weekday_cat_week_day: data.weekday_cat_week_day,
-            weekday_cat_week_end: data.weekday_cat_week_end,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_media_cost/predict',
-        key: 'prediction_marketing_media_cost',
-        getPayload: (data: FormData) => ({
-            no_of_days: data.no_of_days,
-            approved_budget: data.approved_budget,
-            ext_service_name_DV360: data.ext_service_name_DV360,
-            ext_service_name_Facebook_Ads: data.ext_service_name_Facebook_Ads,
-            ext_service_name_Google_Ads: data.ext_service_name_Google_Ads,
-            channel_name_Display: data.channel_name_Display,
-            channel_name_Mobile: data.channel_name_Mobile,
-            channel_name_Search: data.channel_name_Search,
-            channel_name_Social: data.channel_name_Social,
-            channel_name_Video: data.channel_name_Video,
-            weekday_cat_week_day: data.weekday_cat_week_day,
-            weekday_cat_week_end: data.weekday_cat_week_end,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_no_days/predict',
-        key: 'prediction_marketing_no_days',
-        getPayload: (data: FormData) => ({
-            clicks: data.clicks,
-            impressions: data.impressions,
-            approved_budget: data.approved_budget,
-            ext_service_name_enc: data.ext_service_name_enc,
-            channel_name_enc: data.channel_name_enc,
-            weekday_cat_enc: data.weekday_cat_enc,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_budget/predict',
-        key: 'prediction_marketing_budget',
-        getPayload: (data: FormData) => ({
-            clicks: data.clicks,
-            impressions: data.impressions,
-            no_of_days: data.no_of_days,
-            ext_service_name_enc: data.ext_service_name_enc,
-            channel_name_enc: data.channel_name_enc,
-            weekday_cat_enc: data.weekday_cat_enc,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_external_service/predict',
-        key: 'prediction_marketing_external_service',
-        getPayload: (data: FormData) => ({
-            clicks: data.clicks,
-            impressions: data.impressions,
-            no_of_days: data.no_of_days,
-            approved_budget: data.approved_budget,
-            channel_name_enc: data.channel_name_enc,
-            weekday_cat_enc: data.weekday_cat_enc,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_week_day/predict',
-        key: 'prediction_marketing_week_day',
-        getPayload: (data: FormData) => ({
-            clicks: data.clicks,
-            impressions: data.impressions,
-            no_of_days: data.no_of_days,
-            approved_budget: data.approved_budget,
-            ext_service_name_enc: data.ext_service_name_enc,
-            channel_name_enc: data.channel_name_enc,
-        }),
-    },
-    {
-        endpoint: '/modelo/marketing_chanel_name/predict',
-        key: 'prediction_marketing_chanel_name',
-        getPayload: (data: FormData) => ({
-            clicks: data.clicks,
-            impressions: data.impressions,
-            no_of_days: data.no_of_days,
-            approved_budget: data.approved_budget,
-            ext_service_name_enc: data.ext_service_name_enc,
-            channel_name_enc: data.channel_name_enc,
-        }),
-    },
-];
-
-// Función para enviar el formulario
-const submitForm = async () => {
-    // Validación básica
-    if (!userFriendlyData.no_of_days || userFriendlyData.no_of_days < 1) {
-        error.value = 'La duración de la campaña debe ser al menos 1 día.';
-        return;
-    }
-
-    if (!userFriendlyData.approved_budget || userFriendlyData.approved_budget < 0) {
-        error.value = 'El presupuesto debe ser un valor positivo.';
-        return;
-    }
-
-    if (!userFriendlyData.clicks || userFriendlyData.clicks < 0) {
-        error.value = 'Los clics deben ser un valor positivo.';
-        return;
-    }
-
-    if (!userFriendlyData.impressions || userFriendlyData.impressions < 0) {
-        error.value = 'Las impresiones deben ser un valor positivo.';
-        return;
-    }
-
-    loading.value = true;
-    error.value = null;
-    successMessage.value = null;
-
-    const AUTH_TOKEN = getAuthToken();
-
-    if (!AUTH_TOKEN) {
-        error.value = 'No se encontró un token de autenticación. Por favor, inicia sesión.';
-        loading.value = false;
-        return;
-    }
-
-    console.log('Datos del formulario:', userFriendlyData);
-
-    const backendFormData = transformToBackendFormData(userFriendlyData);
-    console.log('Datos transformados para backend:', backendFormData);
-
-    try {
-        const fetchPromises = modelsConfig.map(async (model) => {
-            const payload = model.getPayload(backendFormData);
-            const url = `${BASE_URL}${model.endpoint}`;
-
-            console.log(`Enviando POST a: ${url} con payload:`, payload);
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${AUTH_TOKEN}`,
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(`Error en ${model.endpoint}: ${response.status} ${response.statusText} - ${errorData.detail || 'Error desconocido'}`);
-            }
-
-            const predictionData = await response.json();
-            localStorage.setItem(model.key, JSON.stringify(predictionData));
-            console.log(`Predicción para ${model.key} guardada:`, predictionData);
-            return { key: model.key, data: predictionData };
-        });
-
-        await Promise.all(fetchPromises);
-        successMessage.value = '¡Todas las predicciones se han generado y guardado exitosamente!';
-
-    } catch (err: any) {
-        console.error('Error al enviar el formulario:', err);
-        error.value = err.message || 'Error desconocido al procesar las predicciones.';
-    } finally {
-        loading.value = false;
-    }
-};
+  colorDropdownOpen,
+  colorDropdownRef,
+  neonColorOptions,
+  channelOptions,
+  weekdayOptions,
+  externalServiceOptions,
+  loading,
+  error,
+  successMessage,
+  hasAuthToken,
+  submitForm,
+  currentLoadingMessage
+} = useDropdowns();
 </script>
 
 <style scoped>

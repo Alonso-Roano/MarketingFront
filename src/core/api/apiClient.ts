@@ -11,7 +11,7 @@ const BASE_URLS = {
 const ANON_KEY = import.meta.env.VITE_SUPABASE_ANONKEY ?? 'ANON_KEY_FALLBACK'
 
 const apiClient = axios.create({
-  timeout: 10000,
+  timeout: 1000000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -38,9 +38,12 @@ apiClient.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
     const token = authStore.accessToken
+    const isPythonBackend = config.baseURL?.includes(BASE_URLS.python)
 
     config.headers = config.headers || {}
-    config.headers['Authorization'] = `Bearer ${token ?? ANON_KEY}`
+    config.headers['Authorization'] = isPythonBackend
+      ? `Bearer Bearer ${token ?? ANON_KEY}`
+      : `Bearer ${token ?? ANON_KEY}`
     config.headers['apikey'] = `${ANON_KEY}`
     return config
   },

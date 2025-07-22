@@ -62,26 +62,13 @@
         <PredictionForm />
       </div>
       
-      <!-- Footer con estadísticas -->
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300">
-          <div class="text-2xl font-bold text-purple-400 mb-2">99.2%</div>
-          <div class="text-sm text-gray-400">Precisión del Modelo</div>
-        </div>
-        <div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300">
-          <div class="text-2xl font-bold text-indigo-400 mb-2">< 0.5s</div>
-          <div class="text-sm text-gray-400">Tiempo de Respuesta</div>
-        </div>
-        <div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300">
-          <div class="text-2xl font-bold text-cyan-400 mb-2">24/7</div>
-          <div class="text-sm text-gray-400">Disponibilidad</div>
-        </div>
-      </div>
+      
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+//@ts-ignore
 import PredictionForm from '@/shared/components/form/PredictionForm.vue';
 </script>
 
