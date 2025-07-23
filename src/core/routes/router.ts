@@ -13,6 +13,8 @@ import DashboardLayout from '@/client/pages/DashboardLayout.vue';
 import PredictionToolPage from '@/client/pages/PredictionToolPage.vue';
 //@ts-ignore
 import Detalles from '@/client/pages/Detalles.vue';
+import PredictionLandingPage from '@/client/pages/PredictionLandingPage.vue';
+import FormNewLanding from '@/landing/pages/FormNewLandingPage.vue';
 
 const routes = [
   {
@@ -53,11 +55,6 @@ const routes = [
     props: true
   },
   {
-    path: '/landing',
-    name: 'Landing',
-    component: MainPage,
-  },
-  {
     path: '/',
     component: DashboardLayout,
     meta: { requiresAuth: true },
@@ -76,6 +73,16 @@ const routes = [
         path: 'form',
         name: 'Form',
         component: PredictionToolPage,
+      },
+        {
+        path: 'landing',
+        name: 'Landing',
+        component: PredictionLandingPage,
+      },
+      {
+        path: 'new-landing',
+        name: 'NewLanding',
+        component: FormNewLanding,
       },
   {
     path: '/details/:id',

@@ -54,19 +54,19 @@
         <!-- Si no hay campañas -->
         <template v-else>
           <div
-            class="col-span-full flex flex-col items-center justify-center text-center border-2 border-dashed border-gray-700 rounded-xl p-10 w-7xl"
+            class="col-span-full flex flex-col items-center justify-center text-center border-2 border-dashed border-gray-700 rounded-xl p-10 "
           >
             <span class="pi pi-info-circle text-3xl text-purple-400 mb-4" />
             <h2 class="text-lg font-semibold mb-2">No hay proyectos</h2>
             <p class="text-gray-400 mb-4">
               Empieza creando tu primera campaña personalizada para comenzar a captar clientes.
             </p>
-            <button
+            <RouterLink to="/form"
               class="flex items-center gap-2 px-6 py-3 text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white rounded-md shadow-lg transition"
             >
               <span class="pi pi-plus" />
               Crear nueva campaña
-            </button>
+            </RouterLink>
           </div>
         </template>
       </div>

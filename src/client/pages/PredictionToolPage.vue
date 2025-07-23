@@ -5,10 +5,14 @@
    
     
     <!-- Partículas flotantes -->
-    <div class="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full animate-pulse opacity-60"></div>
-    <div class="absolute top-40 right-20 w-1 h-1 bg-white rounded-full animate-ping   opacity-40"></div>
+    <div class="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full animate-pulse "></div>
+    <div class="absolute  top-40 right-20 w-1 h-1 bg-white rounded-full 
+ animate-[ping_2s_cubic-bezier(0,_0,_0.2,_1)_infinite]
+    ">
+
+  </div>
     <div class="absolute bottom-32 left-1/4 w-3 h-3 bg-purple-500 rounded-full animate-bounce opacity-30"></div>
-    <div class="absolute bottom-20 right-1/3 w-2 h-2 bg-indigo-400 rounded-full animate-pulse opacity-50"></div>
+    <div class="absolute bottom-20 right-1/3 w-2 h-2 bg-indigo-400 rounded-full animate-pulse opacity-50"></div>  
     
     <!-- Contenido principal -->
     <div class="relative z-10 max-w-4xl mx-auto px-6 py-12">

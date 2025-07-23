@@ -112,7 +112,7 @@
     <BentoGridItem
       v-for="(item, index) in items"
       :key="index"
-      :class="index === 3 || index === 6 ? 'md:col-span-2 intersect-once intersect:motion-preset-fade' : ' intersect-once intersect:motion-preset-fade'"
+      :class="index === 3 || index === 6 ? 'md:col-span-2 intersect-once  intersect:motion-preset-fade' : ' intersect-once intersect:motion-preset-fade'"
     >
     <template #header>
         <div class=" size-full flex-1  rounded-md bg-zinc-800 overflow-hidden  space-x-4">
@@ -213,14 +213,9 @@ import { Observer } from 'tailwindcss-intersect';
 import { onMounted } from 'vue';
 import Web from "@/assets/images/features-marketing/web.jpg"
 import FooterComponent from '@/shared/components/others/FooterComponent.vue';
-import Marketing from '@/assets/images/features-marketing/marketing.jpg'
 import Market from '@/assets/images/features-marketing/market.jpg'
-
 import Seo from '@/assets/images/features-marketing/seo.jpg'
-import Chart from "@/assets/images/features-marketing/chart.jpg"
-import Computer from "@/assets/images/features-marketing/computer.jpg"
 import DigitalMarketing from "@/assets/images/features-marketing/digital-marketing.jpg"
-import AI from "@/assets/images/features-marketing/ai.jpg"
 import Brain from "@/assets/images/features-marketing/brain.png"
 import ImgSi from "@/assets/images/features-marketing/img-si.png"
 import Stadistic from "@/assets/images/features-marketing/stadistic.png"
