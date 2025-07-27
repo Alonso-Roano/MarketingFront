@@ -1,10 +1,10 @@
 import { complex } from "../schemas/complexLanding.schema";
 import { hero } from "../schemas/landingExample.schema";
-import { landingPageSchema } from "../schemas/newLanding.schema";
+import { defaultLandingPageSchema } from "../schemas/defaultLandingPage.schema";
+import { modernLandingSchema } from "../schemas/modernLanding.schema";
 
 
 export const landingSchemas:any = {
-    "hero-landing": hero,
-    "complex-landing": complex,
-    "default": landingPageSchema
+    "default": defaultLandingPageSchema,
+    "modernLanding": modernLandingSchema
 };

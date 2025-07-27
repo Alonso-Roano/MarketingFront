@@ -11,5 +11,9 @@ this.user=user
         const refreshToken=this.user.refreshToken
         return refreshToken?refreshToken:null
     }
+    getAccessToken(){
+        const accessToken=this.user.accessToken
+        return accessToken?accessToken:null
+    }
 }
 export default UserService;

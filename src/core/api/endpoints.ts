@@ -36,6 +36,10 @@ const endpoints = {
   },
   MinOS: {
     cargar: { method: 'GET', url: '/minios/get-file' },
+    crear: { method: 'POST', url: '/minios/upload-to-folder' },
+  },
+  landingPage: {
+    crear: { method: 'POST', url: '/omni/landing' },
   },
   stats: {
     listar: { method: 'GET', url: '/functions/v1/stats' },
