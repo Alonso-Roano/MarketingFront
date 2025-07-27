@@ -13,7 +13,7 @@
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Buscar campañas por nombre o ID..."
+          placeholder="Buscar campañas por nombre"
           class="px-4 py-2 rounded-md bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-purple-600 w-full md:max-w-sm"
         />
 
