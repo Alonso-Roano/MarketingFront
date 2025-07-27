@@ -42,7 +42,7 @@ apiClient.interceptors.request.use(
 
     config.headers = config.headers || {}
     config.headers['Authorization'] = isPythonBackend
-      ? `Bearer Bearer ${token ?? ANON_KEY}`
+      ? `Bearer ${token ?? ANON_KEY}`
       : `Bearer ${token ?? ANON_KEY}`
     config.headers['apikey'] = `${ANON_KEY}`
     return config

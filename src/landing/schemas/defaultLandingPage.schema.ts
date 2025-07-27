@@ -31,7 +31,7 @@ export const ctaSchema = z.object({
     .optional(),
 });
 
-export const landingPageSchema = z.object({
+export const defaultLandingPageSchema = z.object({
   // Hero Section
   hero: z.object({
     title: z.string(),
@@ -75,4 +75,4 @@ export const landingPageSchema = z.object({
     .optional(),
 });
 
-export type LandingPageData = z.infer<typeof landingPageSchema>;
+export type DefaultLandingPageData = z.infer<typeof defaultLandingPageSchema>;
