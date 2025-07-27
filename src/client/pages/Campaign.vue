@@ -1,9 +1,30 @@
 <template>
   <div class="min-h-screen px-6 py-10 bg-black text-white">
-    <div class="w-full mx-auto">
-      <div class="mb-10">
+    <div class="w-full mx-auto space-y-6">
+      <!-- Header -->
+      <div>
         <h1 class="text-3xl font-bold tracking-tight">Campañas de Marketing</h1>
         <p class="text-gray-400 mt-2">Aquí puedes gestionar tus campañas activas o crear nuevas.</p>
+      </div>
+
+      <!-- Acciones -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- Buscador -->
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Buscar campañas por nombre o ID..."
+          class="px-4 py-2 rounded-md bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-purple-600 w-full md:max-w-sm"
+        />
+
+        <!-- Botón crear -->
+        <RouterLink
+          to="/form"
+          class="flex items-center gap-2 px-6 py-3 text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white rounded-md shadow-lg transition"
+        >
+          <span class="pi pi-plus" />
+          Crear nueva campaña
+        </RouterLink>
       </div>
 
       <!-- Loader -->
@@ -11,12 +32,19 @@
         <span class="pi pi-spin pi-spinner text-4xl text-purple-400"></span>
       </div>
 
-      <!-- Grid de campañas -->
-      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Si hay campañas -->
-        <template v-if="campaigns.length > 0">
+      <!-- Campañas -->
+      <div v-else>
+        <!-- Sin campañas -->
+        <div v-if="filteredCampaigns.length === 0" class="text-center py-10">
+          <span class="pi pi-info-circle text-3xl text-purple-400 mb-4" />
+          <h2 class="text-lg font-semibold mb-2">No hay campañas</h2>
+          <p class="text-gray-400">Crea tu primera campaña para empezar.</p>
+        </div>
+
+        <!-- Grid de campañas -->
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
-            v-for="(campaign, i) in campaigns"
+            v-for="(campaign, i) in paginatedCampaigns"
             :key="i"
             class="bg-gradient-to-br from-[#2b2b2b] to-[#1a1a1a] border border-neutral-800 rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg"
           >
@@ -27,55 +55,43 @@
 
             <p class="text-sm text-gray-400 mb-4">ID: {{ campaign.description }}</p>
 
-            <router-link :to="`/details/`+campaign.description"
+            <RouterLink
+              :to="`/details/${campaign.description}`"
               class="mt-auto px-4 py-2 rounded-md text-sm transition-colors cursor-pointer"
               :class="campaign.textColor"
               :style="{ backgroundColor: campaign.color }"
             >
               Ver detalles
-            </router-link>
-          </div>
-
-          <!-- Card para añadir nueva campaña -->
-          <RouterLink to="/form">
-            <div
-              class="flex items-center justify-center border-2 bg-black/80 border-dashed hover:bg-white/4 border-gray-700 rounded-xl hover:shadow-purple-500/20 transition-all cursor-pointer"
-            >
-              <button
-                class="flex items-center gap-2 px-6 py-4 text-sm font-medium text-white rounded-md shadow-md transition cursor-pointer"
-              >
-                <span class="pi pi-plus text-purple-400"></span>
-                Crear nueva campaña
-              </button>
-            </div>
-          </RouterLink>
-        </template>
-
-        <!-- Si no hay campañas -->
-        <template v-else>
-          <div
-            class="col-span-full flex flex-col items-center justify-center text-center border-2 border-dashed border-gray-700 rounded-xl p-10 "
-          >
-            <span class="pi pi-info-circle text-3xl text-purple-400 mb-4" />
-            <h2 class="text-lg font-semibold mb-2">No hay proyectos</h2>
-            <p class="text-gray-400 mb-4">
-              Empieza creando tu primera campaña personalizada para comenzar a captar clientes.
-            </p>
-            <RouterLink to="/form"
-              class="flex items-center gap-2 px-6 py-3 text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white rounded-md shadow-lg transition"
-            >
-              <span class="pi pi-plus" />
-              Crear nueva campaña
             </RouterLink>
           </div>
-        </template>
+        </div>
+
+        <!-- Paginación -->
+        <div class="flex justify-center mt-8 gap-4 items-center">
+          <button
+            @click="prevPage"
+            :disabled="currentPage === 1"
+            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50"
+          >
+            Anterior
+          </button>
+          <span class="text-sm">Página {{ currentPage }} de {{ totalPages }}</span>
+          <button
+            @click="nextPage"
+            :disabled="currentPage === totalPages"
+            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50"
+          >
+            Siguiente
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import { apiRequest } from '@/core/api/apiClient'
-import { ref } from 'vue'
 
 interface Campaign {
   title: string
@@ -87,13 +103,14 @@ interface Campaign {
 
 const campaigns = ref<Campaign[]>([])
 const loading = ref(true)
+const searchQuery = ref('')
+const currentPage = ref(1)
+const itemsPerPage = 6
 
 const colorFallback = '#7C3AED'
-
 const isHexColor = (str: string) => /^#([0-9A-Fa-f]{6})$/.test(str)
 const isPiIcon = (str: string) => /^pi\s+pi-[\w-]+$/.test(str)
 
-// Determina si un color es claro u oscuro para elegir el texto
 function getTextColor(bgColor: string): string {
   const r = parseInt(bgColor.substr(1, 2), 16)
   const g = parseInt(bgColor.substr(3, 2), 16)
@@ -104,10 +121,8 @@ function getTextColor(bgColor: string): string {
 
 const fetchCampanas = async () => {
   loading.value = true
-
   try {
     const response = await apiRequest<any>({ key: 'project.listar' })
-
     if (response?.success && Array.isArray(response.data)) {
       campaigns.value = response.data
         .filter((c: any) => !c.is_deleted)
@@ -133,4 +148,27 @@ const fetchCampanas = async () => {
 }
 
 fetchCampanas()
+
+// Filtro
+const filteredCampaigns = computed(() =>
+  campaigns.value.filter((c) =>
+    `${c.title} ${c.description}`.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+)
+
+// Paginación
+const totalPages = computed(() => Math.ceil(filteredCampaigns.value.length / itemsPerPage))
+
+const paginatedCampaigns = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return filteredCampaigns.value.slice(start, start + itemsPerPage)
+})
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--
+}
 </script>
