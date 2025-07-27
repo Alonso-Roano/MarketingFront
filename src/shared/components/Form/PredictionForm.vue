@@ -11,7 +11,7 @@
         <div class="absolute bottom-20 right-1/3 w-2 h-2 bg-indigo-400 rounded-full animate-pulse opacity-50"></div>
 
         <!-- Contenido principal -->
-        <div>
+        <div class="relative">
 
             <!-- Contenedor del formulario -->
             <div
@@ -33,6 +33,41 @@
                         </div>
                     </div>
 
+    <div class="space-y-2">
+  <label for="pdf-upload" class="block text-sm font-medium text-gray-300">
+  Subir PDF de la empresa <span class="text-purple-400 font-normal">(autocompletará el formulario)</span>
+</label>
+
+
+  <div class="relative">
+    <input
+      id="pdf-upload"
+      type="file"
+      accept="application/pdf"
+      @change="handlePDFUpload"
+      :disabled="loading"
+      class="block w-full text-sm text-white file:mr-4 file:py-2 file:px-4 cursor-pointer
+             file:rounded-full file:border-0 file:text-sm file:font-semibold
+             file:bg-purple-600 file:text-white hover:file:bg-purple-700
+             disabled:opacity-50 disabled:cursor-not-allowed "
+    />
+    <p class="text-sm text-white/60 mt-1">
+  Sube un archivo PDF con información de tu empresa (por ejemplo, una propuesta, catálogo o descripción).
+  Este se analizará automáticamente para ayudarte a completar el formulario.
+</p>
+
+    <p v-if="loading && !pdfLoaded" class="text-sm text-purple-300 mt-2 flex items-center space-x-2">
+  <svg class="animate-spin w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581
+         m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+    </path>
+  </svg>
+  <span>{{ currentLoadingMessage }}</span>
+</p>
+  </div>
+</div>
+
                     <!-- Campos adicionales requeridos por el JSON -->
                     <div class="space-y-6">
                         <div class="flex items-center space-x-3 mb-6">
@@ -44,145 +79,208 @@
                             <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label for="nombre" class="block text-sm font-medium text-gray-300">Nombre</label>
-                                <input id="nombre" v-model="userFriendlyData.nombre" type="text"
-                                    placeholder="Ej: Campaña Invierno"
-                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300" />
-                            </div>
-                            <div class="space-y-2">
-                                <label for="description"
-                                    class="block text-sm font-medium text-gray-300">Descripción</label>
-                                <textarea id="description" v-model="userFriendlyData.description" type="text"
-                                    placeholder="Campaña enfocada en..."
-                                    class="w-full p-3 rounded-xl resize-none bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300" />
-                            </div>
-                            
-                            <!-- Tamaño -->
-                            <div class="space-y-2 relative" ref="sizeDropdownRef">
-                                <label for="size" class="block text-sm font-medium text-gray-300">Tamaño</label>
-                                <div @click="sizeDropdownOpen = !sizeDropdownOpen"
-                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm cursor-pointer flex items-center justify-between">
-                                    <span>{{ userFriendlyData.size || 'Selecciona un tamaño' }}</span>
-                                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-                                <ul v-if="sizeDropdownOpen"
-                                    class="absolute z-50 w-full  rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2">
-                                    <li v-for="option in sizeOptions" :key="option" @click="selectSize(option)"
-                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
-                                        {{ option }}
-                                    </li>
-                                </ul>
-                            </div>
+                       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <!-- Nombre -->
+  <div class="space-y-2">
+    <label for="nombre" class="block text-sm font-medium text-gray-300">Nombre</label>
+    <input
+      id="nombre"
+      v-model="userFriendlyData.nombre"
+      type="text"
+      :disabled="loading"
+      placeholder="Ej: Campaña Invierno"
+      class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+    />
+  </div>
 
-                            <!-- Alcance -->
-                            <div class="space-y-2 relative" ref="scopeDropdownRef">
-                                <label for="scope" class="block text-sm font-medium text-gray-300">Alcance</label>
-                                <div @click="scopeDropdownOpen = !scopeDropdownOpen"
-                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm cursor-pointer flex items-center justify-between">
-                                    <span>{{ userFriendlyData.scope || 'Selecciona un alcance' }}</span>
-                                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-                                <ul v-if="scopeDropdownOpen"
-                                    class="absolute z-50 w-full  rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2">
-                                    <li v-for="option in scopeOptions" :key="option" @click="selectScope(option)"
-                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
-                                        {{ option }}
-                                    </li>
-                                </ul>
-                            </div>
+  <!-- Descripción -->
+  <div class="space-y-2">
+    <label for="description" class="block text-sm font-medium text-gray-300">Descripción</label>
+    <textarea
+      id="description"
+      v-model="userFriendlyData.description"
+      :disabled="loading"
+      placeholder="Campaña enfocada en..."
+      class="w-full p-3 rounded-xl resize-none bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+    />
+  </div>
 
-                            <!-- Industria -->
-                            <div class="space-y-2 relative" ref="industryDropdownRef">
-                                <label for="industry" class="block text-sm font-medium text-gray-300">Industria</label>
-                                <div @click="industryDropdownOpen = !industryDropdownOpen"
-                                    class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm cursor-pointer flex items-center justify-between">
-                                    <span>{{ userFriendlyData.industry || 'Selecciona una industria' }}</span>
-                                    <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-                                <ul v-if="industryDropdownOpen"
-                                    class="absolute z-50 w-full  rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2">
-                                    <li v-for="option in industryOptions" :key="option" @click="selectIndustry(option)"
-                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
-                                        {{ option }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="space-y-2 relative" ref="dropdownRef">
-                                <label for="icono" class="block text-sm font-medium text-gray-300">Ícono</label>
+  <!-- Tamaño -->
+  <div class="space-y-2 relative" ref="sizeDropdownRef">
+    <label for="size" class="block text-sm font-medium text-gray-300">Tamaño</label>
+    <div
+      @click="!loading && (sizeDropdownOpen = !sizeDropdownOpen)"
+      :class="[
+        'w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm flex items-center justify-between transition-all duration-300',
+        loading ? 'opacity-40 cursor-not-allowed pointer-events-none' : 'cursor-pointer'
+      ]"
+    >
+      <span>{{ userFriendlyData.size || 'Selecciona un tamaño' }}</span>
+      <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+    <ul
+      v-if="sizeDropdownOpen"
+      class="absolute z-50 w-full rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2"
+    >
+      <li
+        v-for="option in sizeOptions"
+        :key="option"
+        @click="!loading && selectSize(option)"
+        :class="[
+          'flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2',
+          loading && 'pointer-events-none opacity-40'
+        ]"
+      >
+        {{ option }}
+      </li>
+    </ul>
+  </div>
 
-                                <!-- Botón de selección -->
-                                <button type="button" @click="iconDropdownOpen = !iconDropdownOpen"
-                                    class="w-full p-3 flex items-center justify-between rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 text-white">
-                                    <div class="flex items-center space-x-2">
-                                        <i :class="userFriendlyData.icono" class="text-xl"
-                                            v-if="userFriendlyData.icono"></i>
-                                        <span>{{ selectedIconLabel || 'Selecciona un ícono' }}</span>
-                                    </div>
-                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
+  <!-- Alcance -->
+  <div class="space-y-2 relative" ref="scopeDropdownRef">
+    <label for="scope" class="block text-sm font-medium text-gray-300">Alcance</label>
+    <div
+      @click="!loading && (scopeDropdownOpen = !scopeDropdownOpen)"
+      :class="[
+        'w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm flex items-center justify-between transition-all duration-300',
+        loading ? 'opacity-40 cursor-not-allowed pointer-events-none' : 'cursor-pointer'
+      ]"
+    >
+      <span>{{ userFriendlyData.scope || 'Selecciona un alcance' }}</span>
+      <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+    <ul
+      v-if="scopeDropdownOpen"
+      class="absolute z-50 w-full rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2"
+    >
+      <li
+        v-for="option in scopeOptions"
+        :key="option"
+        @click="!loading && selectScope(option)"
+        :class="[
+          'flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2',
+          loading && 'pointer-events-none opacity-40'
+        ]"
+      >
+        {{ option }}
+      </li>
+    </ul>
+  </div>
 
-                                <!-- Lista de opciones -->
-                                <ul v-if="iconDropdownOpen"
-                                    class="absolute z-50 max-h-60 w-full overflow-y-auto rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg">
-                                    <li v-for="icon in iconOptions" :key="icon.class" @click="selectIcon(icon)"
-                                        class="flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2">
-                                        <i :class="icon.class" class="text-xl" />
-                                        <span>{{ icon.label }}</span>
-                                    </li>
-                                </ul>
-                            </div>
+  <!-- Industria -->
+  <div class="space-y-2 relative" ref="industryDropdownRef">
+    <label for="industry" class="block text-sm font-medium text-gray-300">Industria</label>
+    <div
+      @click="!loading && (industryDropdownOpen = !industryDropdownOpen)"
+      :class="[
+        'w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 backdrop-blur-sm flex items-center justify-between transition-all duration-300',
+        loading ? 'opacity-40 cursor-not-allowed pointer-events-none' : 'cursor-pointer'
+      ]"
+    >
+      <span>{{ userFriendlyData.industry || 'Selecciona una industria' }}</span>
+      <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
+    <ul
+      v-if="industryDropdownOpen"
+      class="absolute z-50 w-full rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg py-2"
+    >
+      <li
+        v-for="option in industryOptions"
+        :key="option"
+        @click="!loading && selectIndustry(option)"
+        :class="[
+          'flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2',
+          loading && 'pointer-events-none opacity-40'
+        ]"
+      >
+        {{ option }}
+      </li>
+    </ul>
+  </div>
 
-                            <div class="space-y-2 relative" ref="colorDropdownRef">
-                                <label for="primary_color" class="block text-sm font-medium text-gray-300">Color
-                                    Primario</label>
+  <!-- Icono -->
+  <div class="space-y-2 relative" ref="dropdownRef">
+    <label for="icono" class="block text-sm font-medium text-gray-300">Ícono</label>
+    <button
+      type="button"
+      @click="!loading && (iconDropdownOpen = !iconDropdownOpen)"
+      :class="[
+        'w-full p-3 flex items-center justify-between rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 text-white',
+        loading ? 'opacity-40 cursor-not-allowed pointer-events-none' : 'cursor-pointer'
+      ]"
+    >
+      <div class="flex items-center space-x-2">
+        <i :class="userFriendlyData.icono" class="text-xl" v-if="userFriendlyData.icono"></i>
+        <span>{{ selectedIconLabel || 'Selecciona un ícono' }}</span>
+      </div>
+      <svg class="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+    <ul
+      v-if="iconDropdownOpen"
+      class="absolute z-50 max-h-60 w-full overflow-y-auto rounded-xl bg-black/80 border border-white/10 backdrop-blur-lg shadow-lg"
+    >
+      <li
+        v-for="icon in iconOptions"
+        :key="icon.class"
+        @click="!loading && selectIcon(icon)"
+        :class="[
+          'flex items-center px-4 py-2 cursor-pointer hover:bg-purple-500/10 transition-all duration-200 text-white space-x-2',
+          loading && 'pointer-events-none opacity-40'
+        ]"
+      >
+        <i :class="icon.class" class="text-xl" />
+        <span>{{ icon.label }}</span>
+      </li>
+    </ul>
+  </div>
 
-                                <div class="relative">
-                                    <div @click="colorDropdownOpen = !colorDropdownOpen"
-                                        class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white backdrop-blur-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 cursor-pointer flex items-center justify-between">
-                                        <div class="flex items-center space-x-2">
-                                            <div :style="{ backgroundColor: userFriendlyData.primary_color }"
-                                                class="w-5 h-5 rounded-full border border-white/20"></div>
-                                            <span>{{ userFriendlyData.primary_color || 'Selecciona un color' }}</span>
-                                        </div>
-                                        <svg class="w-4 h-4 text-white opacity-50" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </div>
+  <!-- Color Primario -->
+  <div class="space-y-2 relative" ref="colorDropdownRef">
+    <label for="primary_color" class="block text-sm font-medium text-gray-300">Color Primario</label>
+    <div
+      @click="!loading && (colorDropdownOpen = !colorDropdownOpen)"
+      :class="[
+        'w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white backdrop-blur-sm flex items-center justify-between transition-all duration-300',
+        loading ? 'opacity-40 cursor-not-allowed pointer-events-none' : 'cursor-pointer'
+      ]"
+    >
+      <div class="flex items-center space-x-2">
+        <div
+          :style="{ backgroundColor: userFriendlyData.primary_color }"
+          class="w-5 h-5 rounded-full border border-white/20"
+        ></div>
+        <span>{{ userFriendlyData.primary_color || 'Selecciona un color' }}</span>
+      </div>
+      <svg class="w-4 h-4 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </div>
 
-                                    <!-- Dropdown -->
-                                    <div v-if="colorDropdownOpen"
-                                        class="absolute z-50 mt-2 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-xl shadow-lg grid grid-cols-5 gap-2 p-3">
-                                        <div v-for="color in neonColorOptions" :key="color"
-                                            @click="userFriendlyData.primary_color = color; colorDropdownOpen = false"
-                                            :style="{ backgroundColor: color }"
-                                            class="w-8 h-8 rounded-full cursor-pointer border-2 border-white/10 hover:scale-110 transition transform ring-2 ring-transparent"
-                                            :class="{ 'ring-white/50': userFriendlyData.primary_color === color }">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+    <!-- Colores -->
+    <div
+      v-if="colorDropdownOpen"
+      class="absolute z-50 mt-2 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-xl shadow-lg grid grid-cols-5 gap-2 p-3"
+    >
+      <div
+        v-for="color in neonColorOptions"
+        :key="color"
+        @click="!loading && (userFriendlyData.primary_color = color, colorDropdownOpen = false)"
+        :style="{ backgroundColor: color }"
+        class="w-8 h-8 rounded-full cursor-pointer border-2 border-white/10 hover:scale-110 transition transform ring-2 ring-transparent"
+        :class="{ 'ring-white/50': userFriendlyData.primary_color === color, 'pointer-events-none opacity-40': loading }"
+      ></div>
+    </div>
+  </div>
+</div>
 
-                        </div>
                     </div>
 
                     <!-- Sección 1: Detalles de la Campaña -->
@@ -380,7 +478,71 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/auth/stores/authStore';
 import { useDropdowns } from '@client/services/formService';
+import axios from 'axios';
+import { ref } from 'vue';
+
+const pdfLoaded = ref(false);
+
+const API_URL = import.meta.env.VITE_PYTHON_URL;
+
+const handlePDFUpload = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  console.log("📁 PDF detectado:", file?.name); // 🔍 LOG de prueba
+  if (file) {
+    loadFromPDF(file);
+  }
+};
+
+const loadFromPDF = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  error.value = null;
+  loading.value = true;
+  currentLoadingMessage.value = "Analizando PDF, Espera a que se cargue la información en el formulario...";
+
+  try {
+    const response = await axios.post(`${API_URL}/gemini/extract-from-pdf`, formData, {
+      headers: {
+        Authorization: `Bearer ${useAuthStore().accessToken}`,
+        'refresh-token': useAuthStore().refreshToken
+      },
+    });
+
+    const fields = response.data.form_fields;
+
+    if (!fields) throw new Error("No se encontraron campos válidos.");
+
+    // Asignación con validaciones
+    if (fields.nombre) userFriendlyData.nombre = fields.nombre;
+    if (fields.description) userFriendlyData.description = fields.description;
+
+    if (sizeOptions.includes(fields.size)) selectSize(fields.size);
+    if (scopeOptions.includes(fields.scope)) selectScope(fields.scope);
+    if (industryOptions.includes(fields.industry)) selectIndustry(fields.industry);
+
+    const iconMatch = iconOptions.find(icon => icon.class === fields.icono);
+    if (iconMatch) userFriendlyData.icono = iconMatch.class;
+
+    if (neonColorOptions.includes(fields.primary_color)) {
+      userFriendlyData.primary_color = fields.primary_color;
+    }
+
+    currentLoadingMessage.value = "PDF analizado correctamente.";
+     pdfLoaded.value = true;
+
+  } catch (err: any) {
+    error.value = err?.response?.data?.detail || "Error al procesar el PDF.";
+    console.error("❌ Error:", err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+
+
 
 const {
   userFriendlyData,

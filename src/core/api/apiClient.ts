@@ -38,17 +38,17 @@ apiClient.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
     const token = authStore.accessToken
-    const isPythonBackend = config.baseURL?.includes(BASE_URLS.python)
 
     config.headers = config.headers || {}
-    config.headers['Authorization'] = isPythonBackend
-      ? `Bearer Bearer ${token ?? ANON_KEY}`
-      : `Bearer ${token ?? ANON_KEY}`
+    config.headers['Authorization'] = `Bearer ${token ?? ANON_KEY}`
+    config.headers['refresh_token'] = authStore.refreshToken ?? ''
     config.headers['apikey'] = `${ANON_KEY}`
+
     return config
   },
   (error) => Promise.reject(error),
 )
+
 
 apiClient.interceptors.response.use(
   (response) => response,
