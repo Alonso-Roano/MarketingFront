@@ -26,40 +26,48 @@
           <div
             v-for="landing in landingList"
             :key="landing.id"
-            class="   bg-neutral-800/25 hover:bg-neutral-700/25  rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg"
+            class=" border-[0.5px] border-white/5   bg-neutral-800/25  hover:border-white/10 relative  rounded-xl p-4 shadow-lg transition-all duration-300 hover:shadow-lg"
           >
-            <div class="flex items-center gap-3 mb-4">
-              <span class="pi pi-globe text-2xl text-gray-500" />
-              <h2 class="text-xl font-semibold">{{ landing.data?.title || 'Sin título' }}</h2>
-            </div>
-
-            <p class="text-sm text-gray-400 mb-4">{{ landing.data?.subtitle || 'Sin descripción' }}</p>
-            <p class="text-xs text-gray-500 mb-4">Creado: {{ formatDate(landing.created_at) }}</p>
-
-            <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-700">
-              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs  bg-white/10 capitalize tracking-wider   text-white/90 cursor-default select-none font-semibold ">
+        
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs  bg-black  border-white/20 border-[0.8px] absolute top-2 left-2 capitalize tracking-wider   text-white/90 cursor-default select-none font-semibold ">
                 {{ landing.template_id || 'default' }}
               </span>
-              <div class="flex gap-2">
-                <a 
-                  :href="landing.data?.url || '#'" 
-                  target="_blank"
-                  class="px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 cursor-pointer rounded-full transition"
+     
+         
+            <img :src="landing.data?.hero.backgroundImageSigned || '/landing-default.jpg'" alt=""   class="object-cover w-full h-48 rounded-lg">
+            <div class=" my-2 tracking-tighter">
+              <h2 class="text-xl font-semibold text-white  line-clamp-2 h-15">{{ landing.data?.features.title || 'Sin título' }}</h2>
+            </div>
+            <p class="text-sm text-gray-300 mb-4 line-clamp-2">{{ landing.data?.features.subtitle || 'Sin descripción' }}</p>
+            <div class="flex items-center  justify-between">
+              <p class="text-xs font-semibold text-zinc-300 ">Creado: {{ formatDate(landing.created_at) }}</p>
+              <RouterLink 
+                  :to="{ name: 'LandingPage', params: { id: landing.id } }"
+                  class="px-3 py-2 text-white text-xs flex items-center gap-2 border-[0.3px] bg-black border-white/20   hover:bg-white/10 cursor-pointer rounded-full transition"
                   title="Ver Landing"
                 >
-                  <span class="pi pi-link"></span>
-                </a>
+                  <span class="pi pi-globe"></span>
+                  <span class="text-xs font-semibold">Ver Landing</span>
+                </RouterLink>
+            </div>
+
+            <div class="flex items-center justify-between mt-4 pt-3 border-t border-neutral-700">
+          
+              <div class="flex gap-2">
+             
                 <button 
-                  class="px-3 py-2 text-gray-400 hover:text-white hover:bg-white/5 cursor-pointer rounded-full transition"
+                  class="px-3 py-2 text-white text-xs flex items-center gap-2 border-[0.3px] bg-black border-white/20   hover:bg-white/10 cursor-pointer rounded-3xl transition"
                   title="Editar"
                 >
                   <span class="pi pi-pencil"></span>
+                  <span class="text-xs font-semibold">Editar</span>
                 </button>
                 <button 
-                  class="px-3 py-2 text-red-400  0 cursor-pointer  hover:bg-red-900/30 rounded-full transition"
+                  class="px-3 py-2 text-red-500/90 text-xs flex items-center gap-2   cursor-pointer bg-black  hover:bg-red-900/10 border-red-400/50 border-[0.3px] rounded-3xl transition"
                   title="Eliminar"
                 >
-                  <span class="pi pi-trash"></span>
+                <span class="pi pi-trash"></span>
+                <span class="text-xs font-semibold">Eliminar</span>
                 </button>
               </div>
             </div>
@@ -98,7 +106,14 @@ import UserService from "@/landing/services/userService";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from 'vue-toastification';
+import loadImage from '../../landing/services/loadImages';
 
+const loadImg = async (url:string) => {
+  const res= await loadImage(url);
+  console.log(res);
+  
+  return res.url_firmada;
+}
 const router = useRouter();
 const toast = useToast();
 const userAuth = JSON.parse(localStorage.getItem("auth") ?? "{}");
@@ -167,12 +182,12 @@ const formatDate = (dateString: string) => {
   }
 };
  */
-const fetchLandingPages = async () => {
+ const fetchLandingPages = async () => {
   if (!userId || !refTkn) {
     router.push({ name: 'Login' });
     return;
   }
-  
+
   loading.value = true;
   try {
     const response: any = await apiRequest({
@@ -185,8 +200,31 @@ const fetchLandingPages = async () => {
         }
       },
     });
+
+    const rawLandingList = response.data || [];
+
+    // Firmar todas las imágenes antes de asignarlas
+    const withSignedImages = await Promise.all(
+      rawLandingList.map(async (landing: any) => {
+        const bgImage = landing.data?.hero?.backgroundImage;
+        if (bgImage) {
+          try {
+            const signed = await loadImage(bgImage);
+            console.log(" el signed")
+            console.log(signed); 
+            landing.data.hero.backgroundImageSigned = signed;
+          } catch (e) {
+            console.error('Error firmando imagen:', bgImage, e);
+            landing.data.hero.backgroundImageSigned = '';
+          }
+        }
+        return landing;
+      })
+    );
+
+    landingList.value = withSignedImages;
+    console.log(landingList.value);
     
-    landingList.value = response.data || [];
   } catch (error) {
     console.error('Error fetching landing pages:', error);
     toast.error("No se pudieron cargar las landing pages");
@@ -194,6 +232,7 @@ const fetchLandingPages = async () => {
     loading.value = false;
   }
 };
+
 
 onMounted(() => {
   fetchLandingPages();

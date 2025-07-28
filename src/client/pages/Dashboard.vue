@@ -44,7 +44,7 @@
       <!-- Gráfico + Herramientas en 2 columnas -->
       <section class="grid grid-cols-1 lg:grid-cols-1 gap-6">
         <!-- Gráfico (2/3) -->
-        <div class="lg:col-span-2 bg-[#1e1e1e] p-6 rounded-lg shadow-lg">
+        <div class="lg:col-span-2 bg-neutral-800/25 hover:bg-neutral-700/25 p-6 rounded-lg shadow-lg">
           <h2 class="text-lg font-semibold mb-4">Predicción vs Realidad</h2>
           <div class=" w-full">
             <LineChart :data="chartData" />
@@ -54,7 +54,7 @@
       </section>
 
       <!-- Tabla de campañas recientes -->
-      <section class="bg-[#1e1e1e] p-6 rounded-lg shadow-lg">
+      <section class="bg-neutral-800/25 hover:bg-neutral-700/25 p-6 rounded-lg shadow-lg">
         <h2 class="text-lg font-semibold mb-4">Campañas recientes</h2>
         <table class="w-full text-left table-auto text-sm">
           <thead class="text-gray-400 border-b border-gray-600">

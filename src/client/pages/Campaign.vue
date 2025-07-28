@@ -14,16 +14,16 @@
           v-model="searchQuery"
           type="text"
           placeholder="Buscar campañas por nombre"
-          class="px-4 py-2 rounded-md bg-neutral-800 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-purple-600 w-full md:max-w-sm"
+          class="px-4 py-2 rounded-lg text-sm font-semibold bg-white/10 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-white/80 w-full md:max-w-sm"
         />
 
         <!-- Botón crear -->
         <RouterLink
           to="/form"
-          class="flex items-center gap-2 px-6 py-3 text-sm font-medium bg-purple-600 hover:bg-purple-700 text-white rounded-md shadow-lg transition"
+          class="flex items-center gap-2 px-6 py-2 text-sm font-semibold hover:bg-white/90  bg-white text-black  rounded-md shadow-lg transition"
         >
           <span class="pi pi-plus" />
-          Crear nueva campaña
+          Nueva campaña
         </RouterLink>
       </div>
 
@@ -46,7 +46,7 @@
           <div
             v-for="(campaign, i) in paginatedCampaigns"
             :key="i"
-            class="bg-gradient-to-br from-[#2b2b2b] to-[#1a1a1a] border border-neutral-800 rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg"
+            class="bg-neutral-800/25 hover:bg-neutral-700/25 rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg"
           >
             <div class="flex items-center gap-3 mb-4">
               <span :class="`${campaign.icono} text-2xl`" :style="{ color: campaign.color }" />
