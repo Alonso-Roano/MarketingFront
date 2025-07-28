@@ -3,7 +3,10 @@ import AboutPage from "@pages/AboutPage.vue";
 import LandingPAge from '@/landing/pages/LandingPage.vue';
 import MainPage from "@pages/MainPage.vue";
 import ProfilePage from "@pages/ProfilePage.vue";
+import SettingsPage from "@pages/SettingsPage.vue";
 import ContactPage from "@pages/ContactPage.vue";
+import FeaturesPage from "@pages/FeaturesPage.vue";
+import TestimonialsPage from "@pages/TestimonialsPage.vue";
 import Login from '@auth/pages/Login.vue';
 import Register from '@auth/pages/Register.vue';
 import { useAuthStore } from '@/auth/stores/authStore';
@@ -39,6 +42,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/settings',
+    name: 'Settings',
+    component: SettingsPage,
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/contact',
     name: 'Contact',
     component: ContactPage,
@@ -47,6 +56,16 @@ const routes = [
     path: '/about',
     name: 'About',
     component: AboutPage,
+  },
+  {
+    path: '/features',
+    name: 'Features',
+    component: FeaturesPage,
+  },
+  {
+    path: '/testimonials',
+    name: 'Testimonials',
+    component: TestimonialsPage,
   },
   {
     path: '/landing/:id',

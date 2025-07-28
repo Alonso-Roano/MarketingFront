@@ -24,7 +24,7 @@
         <!-- Si hay landing pages -->
         <template v-if="landingList.length > 0">
           <div
-            v-for="landing in landingList"
+            v-for="landing in paginatedLandings"
             :key="landing.id"
             class=" border-[0.5px] border-white/5   bg-neutral-800/25  hover:border-white/10 relative  rounded-xl p-4 shadow-lg transition-all duration-300 hover:shadow-lg"
           >
@@ -94,6 +94,31 @@
           </div>
         </template>
       </div>
+      
+      <!-- Paginación -->
+      <div v-if="landingList.length > itemsPerPage" class="flex justify-center items-center mt-8 gap-2">
+        <button 
+          @click="prevPage" 
+          :disabled="currentPage === 1" 
+          class="px-3 py-2 rounded-lg bg-neutral-800 text-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+        >
+          <span class="pi pi-chevron-left"></span>
+          Anterior
+        </button>
+        
+        <div class="px-4 py-2 rounded-lg bg-neutral-800/50 text-white">
+          {{ currentPage }} de {{ totalPages }}
+        </div>
+        
+        <button 
+          @click="nextPage" 
+          :disabled="currentPage === totalPages" 
+          class="px-3 py-2 rounded-lg bg-neutral-800 text-white disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
+        >
+          Siguiente
+          <span class="pi pi-chevron-right"></span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -103,7 +128,7 @@
 import { apiRequest } from "@/core/api/apiClient";
 import LandingService from "@/landing/services/formLandingService";
 import UserService from "@/landing/services/userService";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from 'vue-toastification';
 import loadImage from '../../landing/services/loadImages';
@@ -124,6 +149,10 @@ const refTkn = userService.getRefreshToken();
 const accessToken = userService.getAccessToken();
 const landingList = ref<any>([]);
 const loading = ref(true);
+
+// Paginación
+const currentPage = ref(1);
+const itemsPerPage = ref(6); // 6 items por página (2 filas de 3 en desktop)
 const formatDate = (dateString: string) => {
   if (!dateString) return '';
   const options: Intl.DateTimeFormatOptions = { 
@@ -233,6 +262,22 @@ const formatDate = (dateString: string) => {
   }
 };
 
+
+// Funciones de paginación
+const totalPages = computed(() => Math.ceil(landingList.value.length / itemsPerPage.value));
+
+const paginatedLandings = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  return landingList.value.slice(start, start + itemsPerPage.value);
+});
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) currentPage.value++;
+}
+
+function prevPage() {
+  if (currentPage.value > 1) currentPage.value--;
+}
 
 onMounted(() => {
   fetchLandingPages();
