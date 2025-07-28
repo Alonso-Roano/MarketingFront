@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen px-6 py-10 bg-black text-white">
+    <ConfirmDialog />
     <div class="w-full mx-auto">
       <div class="flex justify-between items-start mb-10">
         <div>
@@ -56,6 +57,7 @@
               <div class="flex gap-2">
              
                 <button 
+                  @click="editLanding(landing.id)"
                   class="px-3 py-2 text-white text-xs flex items-center gap-2 border-[0.3px] bg-black border-white/20   hover:bg-white/10 cursor-pointer rounded-3xl transition"
                   title="Editar"
                 >
@@ -63,6 +65,7 @@
                   <span class="text-xs font-semibold">Editar</span>
                 </button>
                 <button 
+                  @click="confirmDelete(landing.id)"
                   class="px-3 py-2 text-red-500/90 text-xs flex items-center gap-2   cursor-pointer bg-black  hover:bg-red-900/10 border-red-400/50 border-[0.3px] rounded-3xl transition"
                   title="Eliminar"
                 >
@@ -132,17 +135,13 @@ import { onMounted, ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from 'vue-toastification';
 import loadImage from '../../landing/services/loadImages';
+import ConfirmDialog from 'primevue/confirmdialog';
+import { useConfirm } from 'primevue/useconfirm';
 
-const loadImg = async (url:string) => {
-  const res= await loadImage(url);
-  console.log(res);
-  
-  return res.url_firmada;
-}
+
 const router = useRouter();
 const toast = useToast();
 const userAuth = JSON.parse(localStorage.getItem("auth") ?? "{}");
-const landingService = new LandingService();
 const userService = new UserService(userAuth);
 const userId = userService.getUserId();
 const refTkn = userService.getRefreshToken();
@@ -165,19 +164,15 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString('es-ES', options);
 };
 
-/* const viewLanding = (id: string) => {
-  // Implement view functionality
-  console.log('View landing:', id);
-  // router.push({ name: 'ViewLanding', params: { id } });
-};
- */
-/* const editLanding = (id: string) => {
+
+const editLanding = (id: string) => {
   // Implement edit functionality
   console.log('Edit landing:', id);
-  // router.push({ name: 'EditLanding', params: { id } });
+  router.push({ name: 'NewLanding', params: { id } });
 };
- */
-/* const confirmDelete = (id: string) => {
+ const confirm = useConfirm();
+
+ const confirmDelete = (id: string) => {
   confirm.require({
     message: '¿Estás seguro de que deseas eliminar esta landing page?',
     header: 'Confirmar eliminación',
@@ -188,29 +183,31 @@ const formatDate = (dateString: string) => {
     accept: () => deleteLanding(id)
   });
 };
- */
-/* const deleteLanding = async (id: string) => {
+ 
+ const deleteLanding = async (id: string) => {
   try {
     // Implement delete API call
-    // await landingService.deleteLanding(id);
+     await apiRequest({
+      key: "landing.eliminar",
+      params: {
+        id: id,
+      },
+      data: {},
+      config: {
+        headers: {
+          "Authorization": accessToken,
+        }
+      },
+     }
+     );
     landingList.value = landingList.value.filter((landing: any) => landing.id !== id);
-    toast.add({
-      severity: 'success',
-      summary: 'Éxito',
-      detail: 'Landing page eliminada correctamente',
-      life: 3000
-    });
+    toast.success("Landing page eliminada correctamente");
   } catch (error) {
     console.error('Error deleting landing:', error);
-    toast.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'No se pudo eliminar la landing page',
-      life: 3000
-    });
+    toast.error("No se pudo eliminar la landing page");
   }
 };
- */
+ 
  const fetchLandingPages = async () => {
   if (!userId || !refTkn) {
     router.push({ name: 'Login' });
