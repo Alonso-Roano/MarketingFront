@@ -18,6 +18,7 @@ import PredictionToolPage from '@/client/pages/PredictionToolPage.vue';
 import Detalles from '@/client/pages/Detalles.vue';
 import PredictionLandingPage from '@/client/pages/PredictionLandingPage.vue';
 import FormNewLanding from '@/landing/pages/FormNewLandingPage.vue';
+import FormEditLanding from '@/landing/pages/FormEditLandingPage.vue';
 
 const routes = [
   {
@@ -102,6 +103,12 @@ const routes = [
         path: 'new-landing',
         name: 'NewLanding',
         component: FormNewLanding,
+      },
+      {
+        path: 'edit-landing/:id',
+        name: 'EditLanding',
+        component: FormEditLanding,
+        props: true
       },
   {
     path: '/details/:id',

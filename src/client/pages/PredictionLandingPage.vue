@@ -166,9 +166,7 @@ const formatDate = (dateString: string) => {
 
 
 const editLanding = (id: string) => {
-  // Implement edit functionality
-  console.log('Edit landing:', id);
-  router.push({ name: 'NewLanding', params: { id } });
+  router.push({ name: 'EditLanding', params: { id } });
 };
  const confirm = useConfirm();
 
