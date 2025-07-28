@@ -146,7 +146,7 @@ const userId=userService.getUserId()
 const refTkn= userService.getRefreshToken()
 const accessToken=userService.getAccessToken()
 const loading = ref(false);
-const showDebug = ref(true); // Set to true for debugging
+const showDebug = ref(false); // Set to true for debugging
 const dynamicFormErrors = ref<string[]>([]);
 
 const payload = ref({

@@ -53,15 +53,17 @@ export  const RULES_URLS_TEMPLATE:Record<string,string[]> = {
         "testimonial_1_avatar",
         "final_cta_primary"
       ],
-      "educationCourse": [
-        "hero_background",
-        "hero_cta_url_prymary",
-        "course_image",
-        "instructor_avatar",
-        "testimonial_0_avatar",
-        "testimonial_1_avatar",
-        "final_cta_secondary"
-      ]
+   "educationCourse": [
+  "hero_background",
+  "hero_cta_url_primary",
+  "hero_cta_url_secondary",
+  "instructor_avatar",
+  "testimonio_0_avatar",
+  "testimonio_1_avatar",
+  "testimonio_2_avatar",
+  "final_cta_primary",
+  "final_cta_secondary"
+]
 }
 
 export const LABELS_URLS_TEMPLATE:Record<string,string[]> ={
@@ -119,12 +121,14 @@ export const LABELS_URLS_TEMPLATE:Record<string,string[]> ={
         "Botón de llamada a la acción final"
       ],
       "educationCourse": [
-        "Imagen destacada del curso",
-        "Botón para inscripción",
-        "Imagen del curso o materia",
+        "Fondo de la sección principal del curso",
+        "Botón principal de inscripción",
+        "Botón secundario de inscripción",
         "Foto del instructor",
         "Avatar de testimonio 1",
         "Avatar de testimonio 2",
-        "Botón de registro alternativo"
+        "Avatar de testimonio 3",
+        "Botón principal de acción final",
+        "Botón secundario de acción final"
       ]
 }
