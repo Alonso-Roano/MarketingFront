@@ -10,18 +10,12 @@
       <!-- Acciones -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <!-- Buscador -->
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Buscar campañas por nombre"
-          class="px-4 py-2 rounded-lg text-sm font-semibold bg-white/10 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-white/80 w-full md:max-w-sm"
-        />
+        <input v-model="searchQuery" type="text" placeholder="Buscar campañas por nombre"
+          class="px-4 py-2 rounded-lg text-sm font-semibold bg-white/10 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-white/80 w-full md:max-w-sm" />
 
         <!-- Botón crear -->
-        <RouterLink
-          to="/form"
-          class="flex items-center gap-2 px-6 py-2 text-sm font-semibold hover:bg-white/90  bg-white text-black  rounded-md shadow-lg transition"
-        >
+        <RouterLink to="/form"
+          class="flex items-center gap-2 px-6 py-2 text-sm font-semibold hover:bg-white/90  bg-white text-black  rounded-md shadow-lg transition">
           <span class="pi pi-plus" />
           Nueva campaña
         </RouterLink>
@@ -43,45 +37,66 @@
 
         <!-- Grid de campañas -->
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div
-            v-for="(campaign, i) in paginatedCampaigns"
-            :key="i"
-            class="bg-neutral-800/25 hover:bg-neutral-700/25 rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg"
-          >
+          <div v-for="(campaign, i) in paginatedCampaigns" :key="i"
+            class="relative bg-neutral-800/25 hover:bg-neutral-700/25 rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg">
+            <!-- Ícono eliminar en esquina superior derecha -->
+            <button @click="confirmDelete(campaign.description)"
+              class="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
+              title="Eliminar campaña">
+              <!-- Ícono SVG de basurero -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 40 40" fill="currentColor">
+                <path
+                  d="M21.499 19.994L32.755 8.727a1.064 1.064 0 0 0-.001-1.502c-.398-.396-1.099-.398-1.501.002L20 18.494 8.743 7.224c-.4-.395-1.101-.393-1.499.002a1.05 1.05 0 0 0-.309.751c0 .284.11.55.309.747L18.5 19.993 7.245 31.263a1.064 1.064 0 0 0 .003 1.503c.193.191.466.301.748.301h.006c.283-.001.556-.112.745-.305L20 21.495l11.257 11.27c.199.198.465.308.747.308a1.06 1.06 0 0 0 1.061-1.061c0-.283-.11-.55-.31-.747z" />
+              </svg>
+            </button>
+
+            <!-- Encabezado con ícono y título -->
             <div class="flex items-center gap-3 mb-4">
               <span :class="`${campaign.icono} text-2xl`" :style="{ color: campaign.color }" />
               <h2 class="text-xl font-semibold">{{ campaign.title }}</h2>
             </div>
 
-            <p class="text-sm text-gray-400 mb-4">ID: {{ campaign.description }}</p>
+            <!-- Descripción -->
+            <p class="text-sm text-gray-400 mb-6">ID: {{ campaign.description }}</p>
 
-            <RouterLink
-              :to="`/details/${campaign.description}`"
-              class="mt-auto px-4 py-2 rounded-md text-sm transition-colors cursor-pointer"
-              :class="campaign.textColor"
-              :style="{ backgroundColor: campaign.color }"
-            >
+            <!-- Botón de ver detalles -->
+            <RouterLink :to="`/details/${campaign.description}`"
+              class="inline-block px-4 py-2 rounded-md text-sm transition-colors cursor-pointer"
+              :class="campaign.textColor" :style="{ backgroundColor: campaign.color }">
               Ver detalles
             </RouterLink>
           </div>
         </div>
 
+
         <!-- Paginación -->
         <div class="flex justify-center mt-8 gap-4 items-center">
-          <button
-            @click="prevPage"
-            :disabled="currentPage === 1"
-            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50"
-          >
+          <button @click="prevPage" :disabled="currentPage === 1"
+            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50">
             Anterior
           </button>
           <span class="text-sm">Página {{ currentPage }} de {{ totalPages }}</span>
-          <button
-            @click="nextPage"
-            :disabled="currentPage === totalPages"
-            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50"
-          >
+          <button @click="nextPage" :disabled="currentPage === totalPages"
+            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50">
             Siguiente
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
+      <div class="bg-neutral-800 p-8 rounded-lg shadow-xl text-center border border-neutral-700">
+        <h3 class="text-xl font-bold mb-4 text-white">Confirmar Eliminación</h3>
+        <p class="text-gray-300 mb-6">¿Estás seguro de que quieres eliminar esta campaña?</p>
+        <div class="flex justify-center gap-4">
+          <button @click="deleteCampaignConfirmed"
+            class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-semibold transition">
+            Sí, Eliminar
+          </button>
+          <button @click="cancelDelete"
+            class="px-6 py-2 bg-neutral-600 hover:bg-neutral-700 text-white rounded-md font-semibold transition">
+            Cancelar
           </button>
         </div>
       </div>
@@ -94,6 +109,7 @@ import { ref, computed } from 'vue'
 import { apiRequest } from '@/core/api/apiClient'
 
 interface Campaign {
+  id: string;
   title: string
   description: string
   icono: string
@@ -110,6 +126,10 @@ const itemsPerPage = 6
 const colorFallback = '#7C3AED'
 const isHexColor = (str: string) => /^#([0-9A-Fa-f]{6})$/.test(str)
 const isPiIcon = (str: string) => /^pi\s+pi-[\w-]+$/.test(str)
+
+// Estado para la eliminación
+const showDeleteModal = ref(false);
+const campaignToDeleteId = ref<string | null>(null);
 
 function getTextColor(bgColor: string): string {
   const r = parseInt(bgColor.substr(1, 2), 16)
@@ -132,6 +152,7 @@ const fetchCampanas = async () => {
           const textColor = getTextColor(color)
 
           return {
+            id: c.id,
             title: c.nombre,
             description: c.id,
             icono,
@@ -147,7 +168,37 @@ const fetchCampanas = async () => {
   }
 }
 
+
 fetchCampanas()
+
+const confirmDelete = (id: string) => {
+  campaignToDeleteId.value = id;
+  showDeleteModal.value = true;
+};
+const cancelDelete = () => {
+  showDeleteModal.value = false;
+  campaignToDeleteId.value = null;
+};
+const deleteCampaignConfirmed = async () => {
+  if (!campaignToDeleteId.value) return;
+  try {
+    // Llama al endpoint de eliminar, pasando el ID como parámetro de URL
+    await apiRequest({
+      key: 'project.eliminar',
+      params: { id: campaignToDeleteId.value }
+    });
+    console.log(`Campaña con ID ${campaignToDeleteId.value} eliminada.`);
+    // Después de eliminar, recargar la lista de campañas
+    fetchCampanas()
+    await fetchCampanas();
+    // Podrías añadir una notificación de éxito aquí
+  } catch (err) {
+    console.error('Error al eliminar la campaña:', err);
+    // Podrías añadir una notificación de error aquí
+  } finally {
+    cancelDelete(); // Cierra el modal de confirmación
+  }
+};
 
 // Filtro
 const filteredCampaigns = computed(() =>
