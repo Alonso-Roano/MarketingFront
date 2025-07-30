@@ -147,7 +147,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white/5 rounded-xl p-6 border border-white/10">
                         <h3 class="text-sm font-medium text-gray-300 mb-2">Presupuesto</h3>
-                        <p v-if="!loading"  class="text-2xl font-bold text-white">${{ project?.project_prediction[0].approved_budget.toLocaleString() }}</p>
+                        <p v-if="!loading"  class="text-2xl font-bold text-white">${{ project?.project_prediction[0].approved_budget.toLocaleString('es-MX') }}</p>
 <div v-else class="h-6 bg-gray-700 rounded animate-pulse w-3/4"></div>
                         <p class="text-xs text-gray-400 mt-1">{{project?.project_prediction[0].interpretacion_approved_budget }}</p>
                     </div>
