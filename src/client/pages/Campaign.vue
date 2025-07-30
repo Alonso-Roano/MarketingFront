@@ -68,7 +68,6 @@
           </div>
         </div>
 
-
         <!-- Paginación -->
         <div class="flex justify-center mt-8 gap-4 items-center">
           <button @click="prevPage" :disabled="currentPage === 1"
@@ -84,29 +83,16 @@
       </div>
     </div>
 
-    <!-- Modal de confirmación para eliminar -->
-    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-      <div class="bg-neutral-800 p-8 rounded-lg shadow-xl text-center border border-neutral-700">
-        <h3 class="text-xl font-bold mb-4 text-white">Confirmar Eliminación</h3>
-        <p class="text-gray-300 mb-6">¿Estás seguro de que quieres eliminar esta campaña?</p>
-        <div class="flex justify-center gap-4">
-          <button @click="deleteCampaignConfirmed"
-            class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-semibold transition">
-            Sí, Eliminar
-          </button>
-          <button @click="cancelDelete"
-            class="px-6 py-2 bg-neutral-600 hover:bg-neutral-700 text-white rounded-md font-semibold transition">
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
+    <!-- Modal de confirmación mejorado -->
+    <DeleteConfirmationModal :show="showDeleteModal" :isDeleting="isDeletingCampaign" @confirm="deleteCampaignConfirmed"
+      @cancel="cancelDelete" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { apiRequest } from '@/core/api/apiClient'
+import DeleteConfirmationModal from '@/shared/components/campaing/DeleteConfirmationModal.vue';
 
 interface Campaign {
   id: string;
@@ -123,13 +109,14 @@ const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 6
 
+// Estados para la eliminación
+const showDeleteModal = ref(false)
+const campaignToDeleteId = ref<string | null>(null)
+const isDeletingCampaign = ref(false)
+
 const colorFallback = '#7C3AED'
 const isHexColor = (str: string) => /^#([0-9A-Fa-f]{6})$/.test(str)
 const isPiIcon = (str: string) => /^pi\s+pi-[\w-]+$/.test(str)
-
-// Estado para la eliminación
-const showDeleteModal = ref(false);
-const campaignToDeleteId = ref<string | null>(null);
 
 function getTextColor(bgColor: string): string {
   const r = parseInt(bgColor.substr(1, 2), 16)
@@ -168,37 +155,46 @@ const fetchCampanas = async () => {
   }
 }
 
-
-fetchCampanas()
-
+// Funciones de eliminación mejoradas
 const confirmDelete = (id: string) => {
-  campaignToDeleteId.value = id;
-  showDeleteModal.value = true;
-};
+  campaignToDeleteId.value = id
+  showDeleteModal.value = true
+}
+
 const cancelDelete = () => {
-  showDeleteModal.value = false;
-  campaignToDeleteId.value = null;
-};
+  if (!isDeletingCampaign.value) {
+    showDeleteModal.value = false
+    campaignToDeleteId.value = null
+  }
+}
+
 const deleteCampaignConfirmed = async () => {
-  if (!campaignToDeleteId.value) return;
+  if (!campaignToDeleteId.value || isDeletingCampaign.value) return
+
+  isDeletingCampaign.value = true
+
   try {
-    // Llama al endpoint de eliminar, pasando el ID como parámetro de URL
     await apiRequest({
       key: 'project.eliminar',
       params: { id: campaignToDeleteId.value }
-    });
-    console.log(`Campaña con ID ${campaignToDeleteId.value} eliminada.`);
-    // Después de eliminar, recargar la lista de campañas
-    fetchCampanas()
-    await fetchCampanas();
-    // Podrías añadir una notificación de éxito aquí
+    })
+
+    console.log(`Campaña con ID ${campaignToDeleteId.value} eliminada.`)
+
+    // Recargar la lista de campañas
+    await fetchCampanas()
+
   } catch (err) {
-    console.error('Error al eliminar la campaña:', err);
-    // Podrías añadir una notificación de error aquí
+    console.error('Error al eliminar la campaña:', err)
+    // Aquí podrías mostrar una notificación de error
   } finally {
-    cancelDelete(); // Cierra el modal de confirmación
+    isDeletingCampaign.value = false
+    cancelDelete() // Cierra el modal
   }
-};
+}
+
+// Inicializar
+fetchCampanas()
 
 // Filtro
 const filteredCampaigns = computed(() =>
