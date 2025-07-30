@@ -158,7 +158,8 @@ const handleLogout = async () => {
 // 📌 Tabs animadas
 const tabs = [
   { label: 'Dashboard', route: '/dashboard', icon: 'pi pi-home', match: (path: string) => path === '/dashboard' },
-  { label: 'Campañas', route: '/campaign', icon: 'pi pi-megaphone', match: (path: string) => path === '/campaign' }
+  { label: 'Campañas', route: '/campaign', icon: 'pi pi-megaphone', match: (path: string) => path === '/campaign' },
+   { label: 'Landing', route: '/landing', icon: 'pi pi-objects-column', match: (path: string) => path === '/landing' }
 ]
 const tabBarRef = ref<HTMLElement | null>(null)
 const tabRefs = ref<HTMLElement[]>([])

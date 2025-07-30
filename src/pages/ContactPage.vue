@@ -2,7 +2,7 @@
   <main class="bg-black">
     <NavigationBar />
 
-    <section class="relative flex min-h-screen w-full flex-col items-center justify-center pt-16">
+    <section class="relative flex h-[500px] w-full flex-col items-center justify-center pt-16">
       <FallingStarsBg class="bg-black" />
       
       <div class="z-[2] flex flex-col items-center gap-8 max-w-6xl mx-auto px-4">
@@ -10,9 +10,9 @@
           <span class="flex flex-col items-center justify-center bg-gradient-to-b from-neutral-200 to-neutral-500 bg-clip-text text-center text-4xl font-bold text-transparent md:text-6xl">
             <span>Conectemos</span>
             <FlipWords :words="['ideas', 'proyectos', 'objetivos']" :duration="3000" class="text-purple-400 opacity-95" />
-          </span>
+          </span> 
           
-          <span class="text-center text-xl text-white/90 tracking-wider max-w-2xl">
+          <span class="text-center block text-xl text-white/90 tracking-wider  max-w-2xl">
             Estamos aquí para ayudarte a llevar tu negocio al siguiente nivel. Hablemos sobre cómo <strong>NIUX</strong> puede transformar tu estrategia de marketing.
           </span>
         </BlurReveal>

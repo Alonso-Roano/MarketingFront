@@ -3,7 +3,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- Logo -->
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0  justify-center items-center gap-2 flex cursor-pointer">
+          <img :src="Logo" alt="" class=" size-[25px]  object-contain aspect-square rounded-full opacity-95">
+
           <router-link to="/" class="uppercase tracking-widest cursor-pointer font-sans text-xl font-bold bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400 text-transparent bg-clip-text">
             NIUX
           </router-link>
@@ -11,10 +13,10 @@
         
         <div v-if="showNavLinks" class="hidden md:block">
           <div class="ml-10 flex items-center space-x-8">
-            <router-link to="/" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Home</router-link>
-            <a href="#features" class="text-gray-300 px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Features</a>
-            <a href="#testimonials" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Testimonials</a>
-            <router-link to="/contact" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Contact</router-link>
+            <router-link to="/" class="text-gray-300 hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Inicio</router-link>
+            <router-link to="/features" class="cursor-pointer hover:text-white text-gray-300 px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Características</router-link>
+            <router-link to="/testimonials" class="cursor-pointer hover:text-white text-gray-300 px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Testimonios</router-link>
+            <router-link to="/contact" class="cursor-pointer hover:text-white text-gray-300 px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Contacto</router-link>
           </div>
         </div>
 
@@ -116,10 +118,21 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/auth/stores/authStore'
 import type { PropsNavbar } from '@/shared/interfaces'
+import Logo from "/logo.webp"
 
 const props = withDefaults(defineProps<PropsNavbar>(), {
   showNavLinks: true
 })
+function smoothScroll(id: string) {
+  document.body.click()
+  const element = document.getElementById(id)
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+}
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -155,6 +168,7 @@ const handleProfileClick = () => {
 
 const handleSettingsClick = () => {
   closeDropdown()
+  router.push('/settings')
 }
 
 const handleDashboardClick = () => {
@@ -179,4 +193,4 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
-</script> 
+</script>

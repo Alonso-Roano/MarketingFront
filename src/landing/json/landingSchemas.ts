@@ -1,10 +1,17 @@
-import { complex } from "../schemas/complexLanding.schema";
-import { hero } from "../schemas/landingExample.schema";
-import { landingPageSchema } from "../schemas/newLanding.schema";
-
+import { defaultLandingPageSchema } from "../schemas/defaultLandingPage.schema";
+import { modernLandingSchema } from "../schemas/modernLanding.schema";
+import { minimalLandingSchema } from "../schemas/minimalLanding.schema";
+import { productShowcaseSchema } from "../schemas/productShowcase.schema";
+import { serviceAgencySchema } from "../schemas/serviceAgency.schema";
+import { educationCourseSchema } from "../schemas/educationCourse.schema";
+import { healthCoachSchema } from "../schemas/healthCoach.schema";
 
 export const landingSchemas:any = {
-    "hero-landing": hero,
-    "complex-landing": complex,
-    "default": landingPageSchema
+    "default": defaultLandingPageSchema,
+/*     "modernLanding": modernLandingSchema,
+    "minimalLanding": minimalLandingSchema,
+    "productShowcase": productShowcaseSchema,
+    "serviceAgency": serviceAgencySchema,
+    "educationCourse": educationCourseSchema,
+    "healthCoach": healthCoachSchema, */
 };

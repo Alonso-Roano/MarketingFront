@@ -27,7 +27,7 @@
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import ProgressSpinner from "primevue/progressspinner";
-import { landingTemplateMap } from "@landing/services/landingTemplates";
+import { landingTemplateMap } from "@/landing/services/landingTemplatesImports";
 import { landingSchemas } from "@landing/json/landingSchemas";
 import { apiRequest } from "@/core/api/apiClient";
 

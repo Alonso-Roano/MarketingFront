@@ -157,7 +157,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { landingPageSchema } from './schemas/landingPage.schema';
+import { landingPageSchema } from './schemas/defaultLandingPage.schema';
 
 const props = defineProps({
   data: {

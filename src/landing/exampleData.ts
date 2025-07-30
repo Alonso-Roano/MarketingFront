@@ -1,4 +1,4 @@
-import type { LandingPageData } from './schemas/landingPage.schema';
+import type { LandingPageData } from './schemas/defaultLandingPage.schema';
 
 export const exampleLandingData: LandingPageData = {
   hero: {

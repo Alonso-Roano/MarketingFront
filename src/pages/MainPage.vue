@@ -1,64 +1,7 @@
 <template>
   <main class="bg-black">
     <!-- Navigation Bar -->
-    <nav class="fixed top-0 z-50 w-full bg-black/80 backdrop-blur-md border-b border-neutral-800">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          <!-- Logo -->
-          <div class="flex-shrink-0 justify-center items-center gap-2 flex cursor-pointer ">
-            <img :src="Logo" alt="" class=" size-[25px]  object-contain aspect-square rounded-full opacity-95">
-            <span class=" uppercase tracking-widest  mb-1  font-sans text-xl font-bold bg-gradient-to-r from-gray-400 via-gray-300  to-gray-400  text-transparent bg-clip-text">
-              NIUX
-            </span>
-          </div>
-          
-          <!-- Navigation Links -->
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-center space-x-8 ">
-              <span @click="smoothScroll('home')" class="text-gray-300 cursor-pointer hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Inicio</span>
-              <span @click="smoothScroll('features')" class="text-gray-300 cursor-pointer hover:text-white  px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Funcionalidades</span>
-              <span @click="smoothScroll('testimonials')" class="text-gray-300 cursor-pointer hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Testimonios</span>
-              <span @click="smoothScroll('contact')" class="text-gray-300 cursor-pointer hover:text-white px-3 py-2 text-sm rounded-md font-medium transition-colors duration-200">Contacto</span>
-            </div>
-          </div>
-          
-          <!-- Auth Buttons -->
-          <div class="flex items-center space-x-6  ">
-            <router-link to="/login" class="  text-white py-2  relative  rounded-md  group  text-sm font-medium transition-colors duration-200">
-              Iniciar Sesión
-              <span class=" absolute block bottom-1   w-0  group-hover:w-full    bg-white/90 rounded-full z-[-1] h-[2px] transition-all duration-200 ease-in-out"></span>
-
-            </router-link>
-            <router-link to="/register" class=" py-2 text-white  relative  text-sm font-medium  group ">
-              Registrarse
-              <span class=" absolute block bottom-1    w-0  group-hover:w-full     bg-white/90 rounded-full z-[-1] h-[2px] transition-all duration-200 ease-in-out"></span>
-            </router-link>
-          </div>
-
-          <!-- User Buttons -->
-          <div class=" flex items-center space-x-3 sr-only">
-          
-            <router-link to="/dashboard">
-              <ShimmerButton
-      class=" px-3 py-2"
-      shimmer-size="1px"
-      border-radius="22px"
-      shimmer-color="var(--color-purple-500) "
-    >
-      <span
-        class="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white  dark:from-white dark:to-slate-900/10"
-      >
-        Dashboard
-      </span>
-    </ShimmerButton>
-            </router-link>
-            <router-link to="/profile" class="    p-1  cursor-pointer text-white/80 hover:text-white transition-colors duration-200">
-              <User class=" size-5  " />
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </nav>
+   
     <NavigationBar />
 
     <section id="home" class="relative flex min-h-screen w-full flex-col items-center justify-center pt-30">
@@ -88,7 +31,9 @@
       <div class="my-2 flex flex-row items-start mt-10  justify-center gap-4">
         <div class="z-10 flex min-h-64 items-start justify-center">
           <div class="flex min-h- items-center justify-center">
+            <router-link to="/contact">
             <InteractiveHoverButton text="Contáctanos" />
+            </router-link>
           </div>
         </div>
 
@@ -112,7 +57,7 @@
     <BentoGridItem
       v-for="(item, index) in items"
       :key="index"
-      :class="index === 3 || index === 6 ? 'md:col-span-2 intersect-once intersect:motion-preset-fade' : ' intersect-once intersect:motion-preset-fade'"
+      :class="index === 3 || index === 6 ? 'md:col-span-2 translate-y-6 opacity-0 intersect:translate-y-0 intersect:opacity-100 transition duration-700' : 'translate-y-6 opacity-0 intersect:translate-y-0 intersect:opacity-100 transition duration-700'"
     >
     <template #header>
         <div class=" size-full flex-1  rounded-md bg-zinc-800 overflow-hidden  space-x-4">
@@ -205,22 +150,15 @@ import { ref } from 'vue'
 import BentoGrid from '@/shared/components/ui/bento-grid/BentoGrid.vue'
 import BentoGridItem from '@/shared/components/ui/bento-grid/BentoGridItem.vue'
 import InteractiveHoverButton from '@/shared/components/ui/interactive-hover-button/InteractiveHoverButton.vue'
-import ShimmerButton from '@/shared/components/ui/shimmer-button/ShimmerButton.vue'
-import Logo from "/logo.webp"
-import { User } from 'lucide-vue-next';
+
 import { Lightbulb } from 'lucide-vue-next';
 import { Observer } from 'tailwindcss-intersect';
 import { onMounted } from 'vue';
 import Web from "@/assets/images/features-marketing/web.jpg"
 import FooterComponent from '@/shared/components/others/FooterComponent.vue';
-import Marketing from '@/assets/images/features-marketing/marketing.jpg'
 import Market from '@/assets/images/features-marketing/market.jpg'
-
 import Seo from '@/assets/images/features-marketing/seo.jpg'
-import Chart from "@/assets/images/features-marketing/chart.jpg"
-import Computer from "@/assets/images/features-marketing/computer.jpg"
 import DigitalMarketing from "@/assets/images/features-marketing/digital-marketing.jpg"
-import AI from "@/assets/images/features-marketing/ai.jpg"
 import Brain from "@/assets/images/features-marketing/brain.png"
 import ImgSi from "@/assets/images/features-marketing/img-si.png"
 import Stadistic from "@/assets/images/features-marketing/stadistic.png"
@@ -274,16 +212,7 @@ const reviews = [
 ];
 
 
-function smoothScroll(id: string) {
-  document.body.click()
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  }
-}
+
 
 // Split reviews into two rows
 const firstRow = ref(reviews.slice(0, reviews.length / 2));
