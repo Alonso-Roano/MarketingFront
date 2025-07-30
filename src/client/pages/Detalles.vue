@@ -42,6 +42,12 @@
                     </div>
                     <h3 class="text-xl font-semibold text-white">Datos ingresados</h3>
                     <div class="flex-1 h-px bg-gradient-to-r from-gray-500/70 to-transparent"></div>
+                          <button
+                             @click="downloadReport"  :disabled="!project || pdfLoading"
+                             class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition disabled:bg-gray-600 disabled:cursor-not-allowed"
+                                >
+                                {{ pdfLoading ? 'Generando...' : 'Descargar PDF' }}
+</button>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -141,7 +147,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="bg-white/5 rounded-xl p-6 border border-white/10">
                         <h3 class="text-sm font-medium text-gray-300 mb-2">Presupuesto</h3>
-                        <p v-if="!loading"  class="text-2xl font-bold text-white">${{ project?.project_prediction[0].approved_budget.toLocaleString() }}</p>
+                        <p v-if="!loading"  class="text-2xl font-bold text-white">${{ project?.project_prediction[0].approved_budget.toLocaleString('es-MX') }}</p>
 <div v-else class="h-6 bg-gray-700 rounded animate-pulse w-3/4"></div>
                         <p class="text-xs text-gray-400 mt-1">{{project?.project_prediction[0].interpretacion_approved_budget }}</p>
                     </div>
@@ -295,6 +301,7 @@ import { ref, onMounted } from 'vue';
 import { apiRequest } from '@/core/api/apiClient';
 import { useRoute } from 'vue-router';
 import BarChart from '@shared/components/Charts/BarChar.vue';
+import { generateProjectPDF } from '@shared/components/others/PdfGenerator';
 
 
 interface ProjectData {
@@ -355,7 +362,29 @@ interface Project {
 const route = useRoute();
 const project = ref<Project | null>(null);
 const loading = ref(false);
+const pdfLoading = ref(false);
 const error = ref<string | null>(null);
+
+//pdf
+const downloadReport = async () => {
+    if (!project.value) {
+        alert('Los datos del proyecto aún no están disponibles.');
+        return;
+    }
+
+    pdfLoading.value = true;
+    try {
+       
+        await generateProjectPDF(project.value);
+    } catch (e: any) {
+        console.error('Error al generar el PDF:', e);
+        alert(`No se pudo generar el reporte: ${e.message}`);
+    } finally {
+
+        pdfLoading.value = false;
+    }
+};
+//
 
 const fetchProject = async () => {
     try {
