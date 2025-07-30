@@ -1,89 +1,129 @@
 <template>
   <div class="min-h-screen px-6 py-10 bg-black text-white">
     <div class="w-full mx-auto space-y-6">
-      <!-- Header -->
-      <div>
+
+      <div class="text-center">
         <h1 class="text-3xl font-bold tracking-tight">Campañas de Marketing</h1>
-        <p class="text-gray-400 mt-2">Aquí puedes gestionar tus campañas activas o crear nuevas.</p>
+        <p class="text-gray-400 mt-2">Gestiona y monitorea todas tus campañas de marketing desde un solo lugar. Crea nuevas estrategias y optimiza el rendimiento de tus anuncios.</p>
       </div>
 
-      <!-- Acciones -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <!-- Buscador -->
-        <input v-model="searchQuery" type="text" placeholder="Buscar campañas por nombre"
-          class="px-4 py-2 rounded-lg text-sm font-semibold bg-white/10 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-white/80 w-full md:max-w-sm" />
 
-        <!-- Botón crear -->
+      <div class="relative flex items-center justify-end">
+
+        <div class="absolute left-1/2 transform -translate-x-1/2">
+          <input v-model="searchQuery" type="text" placeholder="Buscar campañas"
+            class="px-4 py-2 rounded-lg text-sm font-semibold bg-white/10 text-white placeholder-gray-400 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-white/80 w-80" />
+        </div>
+
+
         <RouterLink to="/form"
-          class="flex items-center gap-2 px-6 py-2 text-sm font-semibold hover:bg-white/90  bg-white text-black  rounded-md shadow-lg transition">
+          class="flex items-center gap-2 px-6 py-2 text-sm font-semibold hover:bg-white/90 bg-white text-black rounded-md shadow-lg transition whitespace-nowrap">
           <span class="pi pi-plus" />
           Nueva campaña
         </RouterLink>
       </div>
 
-      <!-- Loader -->
+
       <div v-if="loading" class="flex justify-center items-center h-64">
         <span class="pi pi-spin pi-spinner text-4xl text-purple-400"></span>
       </div>
 
-      <!-- Campañas -->
+
       <div v-else>
-        <!-- Sin campañas -->
+
         <div v-if="filteredCampaigns.length === 0" class="text-center py-10">
           <span class="pi pi-info-circle text-3xl text-purple-400 mb-4" />
           <h2 class="text-lg font-semibold mb-2">No hay campañas</h2>
           <p class="text-gray-400">Crea tu primera campaña para empezar.</p>
         </div>
 
-        <!-- Grid de campañas -->
+
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(campaign, i) in paginatedCampaigns" :key="i"
-            class="relative bg-neutral-800/25 hover:bg-neutral-700/25 rounded-xl p-6 shadow-lg transition-all duration-300 hover:shadow-lg">
-            <!-- Ícono eliminar en esquina superior derecha -->
-            <button @click="confirmDelete(campaign.description)"
-              class="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
-              title="Eliminar campaña">
-              <!-- Ícono SVG de basurero -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 40 40" fill="currentColor">
-                <path
-                  d="M21.499 19.994L32.755 8.727a1.064 1.064 0 0 0-.001-1.502c-.398-.396-1.099-.398-1.501.002L20 18.494 8.743 7.224c-.4-.395-1.101-.393-1.499.002a1.05 1.05 0 0 0-.309.751c0 .284.11.55.309.747L18.5 19.993 7.245 31.263a1.064 1.064 0 0 0 .003 1.503c.193.191.466.301.748.301h.006c.283-.001.556-.112.745-.305L20 21.495l11.257 11.27c.199.198.465.308.747.308a1.06 1.06 0 0 0 1.061-1.061c0-.283-.11-.55-.31-.747z" />
-              </svg>
-            </button>
+            class="group relative bg-gradient-to-br from-slate-800/40 to-slate-700/30 border border-slate-600/30 backdrop-blur-sm rounded-xl p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-slate-500/50">
+            
 
-            <!-- Encabezado con ícono y título -->
-            <div class="flex items-center gap-3 mb-4">
-              <span :class="`${campaign.icono} text-2xl`" :style="{ color: campaign.color }" />
-              <h2 class="text-xl font-semibold">{{ campaign.title }}</h2>
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="p-3 rounded-xl transition-all duration-300" :style="{ backgroundColor: `${campaign.color}20`, border: `1px solid ${campaign.color}40` }">
+                  <span :class="`${campaign.icono} text-xl`" :style="{ color: campaign.color }" />
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-white group-hover:text-gray-100 transition-colors">{{ campaign.title }}</h2>
+                  <p class="text-xs text-gray-400">Campaña activa</p>
+                </div>
+              </div>
+              <div class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
             </div>
 
-            <!-- Descripción -->
-            <p class="text-sm text-gray-400 mb-6">ID: {{ campaign.description }}</p>
 
-            <!-- Botón de ver detalles -->
-            <RouterLink :to="`/details/${campaign.description}`"
-              class="inline-block px-4 py-2 rounded-md text-sm transition-colors cursor-pointer"
-              :class="campaign.textColor" :style="{ backgroundColor: campaign.color }">
-              Ver detalles
-            </RouterLink>
+            <div class="space-y-4 mb-6">
+
+              <div class="bg-slate-900/30 rounded-lg p-3 border border-slate-600/20">
+                <div class="flex items-center gap-2 mb-1">
+                  <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
+                  <span class="text-xs font-medium text-gray-300">ID de Campaña</span>
+                </div>
+                <p class="text-sm font-mono text-white">{{ campaign.description }}</p>
+              </div>
+
+
+              <div class="grid grid-cols-1 gap-3">
+                <div class="bg-slate-900/30 border border-slate-600/20 rounded-lg p-3">
+                  <div class="flex items-center gap-2 mb-1">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span class="text-xs text-gray-300">Estado</span>
+                  </div>
+                  <p class="text-sm font-semibold text-white">Activa</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="flex gap-2">
+              <RouterLink :to="`/details/${campaign.description}`"
+                class="flex-1 px-4 py-2 rounded-lg text-sm font-semibold text-center transition-all duration-200 bg-slate-700/50 hover:bg-slate-600/60 text-gray-200 hover:text-white border border-slate-600/30 hover:border-slate-500/50">
+                Ver campaña
+              </RouterLink>
+              
+
+              <button @click="confirmDelete(campaign.description)"
+                class="px-3 py-2 rounded-lg bg-slate-700/50 hover:bg-red-600/80 text-gray-300 hover:text-white border border-slate-600/30 hover:border-red-500/50 transition-all duration-200"
+                title="Eliminar campaña">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3,6 5,6 21,6"></polyline>
+                  <path d="M19,6v14a2,2 0,0,1-2,2H7a2,2 0,0,1-2-2V6M8,6V4a2,2 0,0,1,2-2h4a2,2 0,0,1,2,2V6"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </div>
+
+
+            <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
           </div>
         </div>
 
-        <!-- Paginación -->
+
         <div class="flex justify-center mt-8 gap-4 items-center">
           <button @click="prevPage" :disabled="currentPage === 1"
-            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50">
+            class="px-4 py-2 bg-slate-700/50 hover:bg-slate-600/60 text-gray-200 hover:text-white rounded border border-slate-600/30 hover:border-slate-500/50 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-slate-700/50 disabled:hover:text-gray-200">
             Anterior
           </button>
-          <span class="text-sm">Página {{ currentPage }} de {{ totalPages }}</span>
+          <span class="text-sm text-gray-300">Página {{ currentPage }} de {{ totalPages }}</span>
           <button @click="nextPage" :disabled="currentPage === totalPages"
-            class="px-4 py-2 bg-neutral-700 hover:bg-neutral-600 rounded disabled:opacity-50">
+            class="px-4 py-2 bg-slate-700/50 hover:bg-slate-600/60 text-gray-200 hover:text-white rounded border border-slate-600/30 hover:border-slate-500/50 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-slate-700/50 disabled:hover:text-gray-200">
             Siguiente
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Modal de confirmación mejorado -->
+
     <DeleteConfirmationModal :show="showDeleteModal" :isDeleting="isDeletingCampaign" @confirm="deleteCampaignConfirmed"
       @cancel="cancelDelete" />
   </div>
@@ -109,7 +149,7 @@ const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 6
 
-// Estados para la eliminación
+
 const showDeleteModal = ref(false)
 const campaignToDeleteId = ref<string | null>(null)
 const isDeletingCampaign = ref(false)
@@ -155,7 +195,7 @@ const fetchCampanas = async () => {
   }
 }
 
-// Funciones de eliminación mejoradas
+
 const confirmDelete = (id: string) => {
   campaignToDeleteId.value = id
   showDeleteModal.value = true
@@ -181,29 +221,29 @@ const deleteCampaignConfirmed = async () => {
 
     console.log(`Campaña con ID ${campaignToDeleteId.value} eliminada.`)
 
-    // Recargar la lista de campañas
+
     await fetchCampanas()
 
   } catch (err) {
     console.error('Error al eliminar la campaña:', err)
-    // Aquí podrías mostrar una notificación de error
+
   } finally {
     isDeletingCampaign.value = false
-    cancelDelete() // Cierra el modal
+    cancelDelete()
   }
 }
 
-// Inicializar
+
 fetchCampanas()
 
-// Filtro
+
 const filteredCampaigns = computed(() =>
   campaigns.value.filter((c) =>
     `${c.title} ${c.description}`.toLowerCase().includes(searchQuery.value.toLowerCase())
   )
 )
 
-// Paginación
+
 const totalPages = computed(() => Math.ceil(filteredCampaigns.value.length / itemsPerPage))
 
 const paginatedCampaigns = computed(() => {
