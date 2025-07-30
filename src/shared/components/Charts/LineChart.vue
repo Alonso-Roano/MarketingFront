@@ -3,7 +3,7 @@
     <div class="mb-4">
       <label for="metric" class="block mb-1 text-white font-semibold">Selecciona métrica:</label>
       <select id="metric" v-model="selectedMetric" class="p-2 rounded bg-gray-800 text-white">
-        <option value="clicks">Clicks</option>
+        <option value="clicks">Clics</option>
         <option value="impressions">Impresiones</option>
         <option value="approved_budget">Presupuesto aprobado</option>
       </select>
