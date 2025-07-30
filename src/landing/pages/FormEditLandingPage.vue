@@ -155,13 +155,16 @@ const loadLandingData = async () => {
         }
       },
     });
-    
-    if (response.data) {
+    console.log("el response")
+    console.log(response)
+    if (response.success && response.data) {
       payload.value.template_id = response.data.template_id;
       payload.value.contexto = response.data.contexto;
-      payload.value.urls = response.data.urls || {};
-      initialValues.value = response.data.urls || {};
+      //payload.value.urls = response.data.data.urls || {};
+      //initialValues.value = response.data.data.urls || {};
     }
+    console.log("el payload")
+    console.log(payload.value)
   } catch (error) {
     console.error('Error loading landing data:', error);
     toast.error('Error al cargar los datos de la landing page');

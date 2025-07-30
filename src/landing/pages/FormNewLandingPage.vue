@@ -85,9 +85,9 @@
                 <div v-if="vuelidate.urls.required.$invalid" class="mb-1">
                   Por favor completa todos los campos requeridos
                 </div>
-                <div v-for="error in dynamicFormErrors" :key="error" class="mb-1">
+           <!--      <div v-for="error in dynamicFormErrors" :key="error" class="mb-1">
                   {{ error }}
-                </div>
+                </div> -->
               </div>
 
               <button 

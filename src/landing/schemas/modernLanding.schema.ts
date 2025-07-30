@@ -9,7 +9,7 @@ export const heroSchema = z.object({
     z.object({
       text: z.string(),
       url: z.string().optional(),
-      variant: z.enum(['primary', 'secondary']).default('primary'),
+      variant: z.enum(['primary', 'secondary', 'outline']).default('primary'),
     })
   ).min(1).max(2),
 });
@@ -27,9 +27,9 @@ export const ctaSchema = z.object({
   description: z.string().optional(),
   primaryButton: z.object({
     text: z.string(),
-    url: z.string().optional(),
-    variant: z.enum(['primary', 'secondary']).default('primary'),
-  }),
+      url: z.string().optional(),
+      variant: z.enum(['primary', 'secondary', 'outline']).default('primary'),
+    }),
   secondaryButton: z
     .object({
       text: z.string(),
@@ -64,14 +64,14 @@ export const modernLandingSchema = z.object({
         description: z.string(),
         icon: z.string().optional(),
       })
-    ).min(1).optional(),
-  }).optional(),
+    ).min(1),
+  }),
   
   // Testimonials Section
   testimonials: z.object({
     title: z.string().optional(),
     items: z.array(testimonialSchema).min(1, 'At least one testimonial is required'),
-  }),
+  }).optional(),
   
   // Final CTA Section
   finalCta: ctaSchema,

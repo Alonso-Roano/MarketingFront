@@ -44,20 +44,13 @@
             </a>
           </div>
           
-          <div v-if="data.hero.features && data.hero.features.length > 0" class="mt-16">
-            <div class="inline-grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12">
-              <div v-for="(feature, index) in data.hero.features" :key="'feature-' + index" class="text-white flex items-center">
-                <span v-if="feature.icon" class="mr-2" v-html="feature.icon"></span>
-                <span>{{ feature.text }}</span>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
 
     <!-- Features Section -->
-    <section class="py-20 bg-gray-50">
+    <section v-if="data.features && data.features.items && data.features.items.length > 0" class="py-20 bg-gray-50">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-bold mb-4">{{ data.features.title }}</h2>
@@ -177,8 +170,9 @@
             :href="button.url"
             class="btn px-8 py-3 rounded-full font-medium transition-all"
             :class="{
-              'btn-primary': button.variant === 'primary' || button === data.finalCta.primaryButton,
-              'btn-secondary': button.variant === 'secondary' || button === data.finalCta.secondaryButton
+              'btn-primary': button.variant === 'primary',
+              'btn-secondary': button.variant === 'secondary',
+              'btn-outline border-2 border-white text-white hover:bg-white hover:text-primary': button.variant === 'outline'
             }"
             @click="handleCtaClick(button)"
           >

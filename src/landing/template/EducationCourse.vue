@@ -262,7 +262,7 @@
   </template>
   
   <script setup lang="ts">
-  import { computed, reactive, ref } from 'vue';
+  import { computed, reactive, ref,onMounted,watch } from 'vue';
   import loadImage from '../services/loadImages';
   import type { EducationCourseData } from '../schemas/educationCourse.schema';
   
