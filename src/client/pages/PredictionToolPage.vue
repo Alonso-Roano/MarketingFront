@@ -74,6 +74,7 @@
 <script setup lang="ts">
 //@ts-ignore
 import PredictionForm from '@shared/components/Form/PredictionForm.vue';
+
 </script>
 
 <style scoped>
