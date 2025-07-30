@@ -8,10 +8,10 @@ import { healthCoachSchema } from "../schemas/healthCoach.schema";
 
 export const landingSchemas:any = {
     "default": defaultLandingPageSchema,
-    "modernLanding": modernLandingSchema,
+/*     "modernLanding": modernLandingSchema,
     "minimalLanding": minimalLandingSchema,
     "productShowcase": productShowcaseSchema,
     "serviceAgency": serviceAgencySchema,
     "educationCourse": educationCourseSchema,
-    "healthCoach": healthCoachSchema,
+    "healthCoach": healthCoachSchema, */
 };
