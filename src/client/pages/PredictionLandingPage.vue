@@ -4,15 +4,15 @@
     <div class="w-full mx-auto">
       <div class="flex justify-between items-start mb-10">
         <div>
-          <h1 class="text-3xl font-bold tracking-tight">Landing Pages</h1>
-          <p class="text-gray-400 mt-2">Aquí puedes gestionar tus landing pages o crear nuevas.</p>
+          <h1 class="text-3xl font-bold tracking-tight">Landing Page</h1>
+          <p class="text-gray-400 mt-2">Aquí puedes gestionar tu landing page o crear una nueva.</p>
         </div>
-        <RouterLink :to="{name:'NewLanding'}" class="mt-2">
+     <!--    <RouterLink v-if="landingList.length === 0" :to="{name:'NewLanding'}" class="mt-2">
           <button class="flex items-center text-sm gap-2 px-4 py-2 bg-white  text-black font-semibold cursor-pointer hover:bg-white/90 rounded-lg transition">
             <span class="pi pi-plus"></span>
             Nueva Landing
           </button>
-        </RouterLink>
+        </RouterLink> -->
       </div>
 
       <!-- Loader -->
@@ -56,14 +56,14 @@
           
               <div class="flex gap-2">
              
-                <button 
+             <!--    <button 
                   @click="editLanding(landing.id)"
                   class="px-3 py-2 text-white text-xs flex items-center gap-2 border-[0.3px] bg-black border-white/20   hover:bg-white/10 cursor-pointer rounded-3xl transition"
                   title="Editar"
                 >
                   <span class="pi pi-pencil"></span>
                   <span class="text-xs font-semibold">Editar</span>
-                </button>
+                </button> -->
                 <button 
                   @click="confirmDelete(landing.id)"
                   class="px-3 py-2 text-red-500/90 text-xs flex items-center gap-2   cursor-pointer bg-black  hover:bg-red-900/10 border-red-400/50 border-[0.3px] rounded-3xl transition"
@@ -246,7 +246,7 @@ const editLanding = (id: string) => {
       })
     );
 
-    landingList.value = withSignedImages;
+    landingList.value = withSignedImages.slice(withSignedImages.length - 1, withSignedImages.length);
     console.log(landingList.value);
     
   } catch (error) {

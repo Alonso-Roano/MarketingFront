@@ -1,27 +1,52 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div v-for="(url, index) in urls" :key="url" class="space-y-3 bg-black/35 p-4 rounded-xl border border-gray-700/50 hover:border-gray-600/50 transition-colors duration-200">
-      <div class="flex justify-between items-center">
-        <label :for="`${url}-input`" class="block text-sm font-medium text-gray-300">
-          {{ getLabelForUrl(url, index) }}
-        </label>
-        <div v-if="isImageField(url)" class="flex items-center space-x-2 text-xs">
-  
-          <button 
-            type="button"
-            @click="inputTypes[url] = 'file'"
-            class="px-2 py-1 rounded-md transition-colors"
-            :class="inputTypes[url] === 'file' ? 'bg-gray-700/50 text-white' : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50'"
-          >
-            Subir Archivo
-          </button>
+    <div v-for="(url, index) in urls" :key="url" class="group relative space-y-3 bg-black/35 p-4 rounded-xl border border-gray-700/50 hover:border-gray-600/50 transition-all duration-200 hover:shadow-lg hover:shadow-purple-500/10">
+      <!-- Visual indicator -->
+      <div class="absolute -top-2 -right-2 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        {{ index + 1 }}
+      </div>
+      
+      <div class="flex justify-between items-start">
+        <div>
+          <label :for="`${url}-input`" class="block text-sm font-medium text-gray-300 mb-1">
+            {{ getLabelForUrl(url, index) }}
+          </label>
+          <div class="text-xs text-gray-400 mb-2">
+            {{ getFieldDescription(url) }}
+          </div>
+        </div>
+        
+        <!-- Visual preview -->
+        <div class="ml-4 flex-shrink-0 bg-gray-800/50 p-1.5 rounded-lg border border-gray-700/50">
+          <div class="w-16 h-10 flex items-center justify-center text-gray-400">
+            <template v-if="inputTypes[url] === 'url'">
+              <div class="text-center">
+                <div class="mx-auto w-6 h-6 mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19V6.413L11.2071 14.2071L9.79289 12.7929L17.585 5H13V3H21Z"></path>
+                  </svg>
+                </div>
+                <div class="text-[9px] uppercase tracking-wider">Enlace</div>
+              </div>
+            </template>
+            <template v-else>
+              <div class="text-center">
+                <div class="mx-auto w-6 h-6 mb-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5 11.1L12 14L19 11.1V13C19 15.7614 16.7614 18 14 18H10C7.23858 18 5 15.7614 5 13V11.1ZM5 8V5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V8L12 11L5 8ZM3 5C3 3.34315 4.34315 2 6 2H18C19.6569 2 21 3.34315 21 5V13C21 16.866 17.866 20 14 20H10C6.13401 20 3 16.866 3 13V5Z"></path>
+                  </svg>
+                </div>
+                <div class="text-[9px] uppercase tracking-wider">Imagen</div>
+              </div>
+            </template>
+          </div>
         </div>
       </div>
 
       <!-- URL Input -->
       <div v-if="inputTypes[url] === 'url'" class="relative">
         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-400" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
           </svg>
         </div>
@@ -51,10 +76,10 @@
           <label 
             :for="`${url}-file`" 
             :class="[
-              'flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-200',
+              'flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-all duration-200 hover:border-purple-400 hover:bg-purple-500/10',
               errors.includes(url) 
                 ? 'border-red-500 bg-red-500/10 hover:bg-red-500/20' 
-                : 'border-gray-600 bg-white/5 hover:bg-white/10'
+                : 'border-purple-500/50 bg-white/5 hover:bg-purple-500/5 hover:shadow-md hover:shadow-purple-500/10'
             ]">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
               <svg class="w-8 h-8 mb-2 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -305,5 +330,35 @@ const formatUrlToLabel = (url: string, forPlaceholder = false): string => {
   }
   
   return formatted;
+}
+
+const getFieldDescription = (url: string): string => {
+  const lowerUrl = url.toLowerCase();
+  
+  if (lowerUrl.includes('logo')) {
+    return 'Logotipo principal de tu sitio web';
+  } else if (lowerUrl.includes('hero')) {
+    return 'Imagen principal de la sección hero';
+  } else if (lowerUrl.includes('banner') || lowerUrl.includes('header')) {
+    return 'Imagen del encabezado o banner';
+  } else if (lowerUrl.includes('cta') || lowerUrl.includes('calltoaction')) {
+    return 'Enlace para el botón de llamada a la acción';
+  } else if (lowerUrl.includes('avatar') || lowerUrl.includes('profile')) {
+    return 'Foto de perfil o avatar';
+  } else if (lowerUrl.includes('background')) {
+    return 'Imagen de fondo para la sección';
+  } else if (lowerUrl.includes('product') || lowerUrl.includes('servicio')) {
+    return 'Imagen del producto o servicio';
+  } else if (lowerUrl.includes('icon')) {
+    return 'Ícono para la sección';
+  } else if (lowerUrl.includes('testimonial')) {
+    return 'Foto del testimonio';
+  } else if (lowerUrl.includes('gallery')) {
+    return 'Imagen para la galería';
+  } else if (lowerUrl.includes('url') || lowerUrl.includes('link')) {
+    return 'Enlace externo o interno';
+  }
+  
+  return 'Campo personalizado';
 }
 </script>
