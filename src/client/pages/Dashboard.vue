@@ -149,16 +149,16 @@
           </HorizontalBarChart>
         </div>
 
-        <!-- Tendencias Temporales -->
+        <!-- Eficiencia de Inversión -->
         <div class="bg-neutral-800/25 hover:bg-neutral-700/25 p-6 rounded-lg shadow-lg" data-chart="bar-chart">
           <HorizontalBarChart 
-            :data="weekdayTrends"
-            title="Tendencias por Día de la Semana"
-            description="Analiza en qué días de la semana las campañas obtienen mejores resultados. Se basan en el promedio de clics obtenidos por día de la semana de todas las campañas activas. Esta información es crucial para planificar el timing de las campañas y optimizar el alcance."
-            data-label="Promedio de clics"
+            :data="campaignEfficiency"
+            title="Eficiencia de Inversión por Campaña"
+            description="Muestra la eficiencia de cada campaña calculando el ratio clics/presupuesto (clics por cada $1000 invertidos). Las campañas con barras más largas tienen mejor rendimiento de inversión. Esta métrica ayuda a identificar qué campañas están generando más interacción por cada dólar invertido."
+            data-label="Clics por $1000 invertidos"
           >
             <template #icon>
-              <Calendar class="h-6 w-6 text-orange-400" />
+              <TrendingUp class="h-6 w-6 text-orange-400" />
             </template>
           </HorizontalBarChart>
         </div>
@@ -338,35 +338,26 @@ const channelPerformance = computed(() => {
   })).sort((a, b) => b.value - a.value)
 })
 
-const weekdayTrends = computed(() => {
-  const weekdays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-  const weekdayClicks = new Map<string, { total: number, count: number }>()
-  
-  weekdays.forEach(day => {
-    weekdayClicks.set(day, { total: 0, count: 0 })
-  })
-  
-  rawProjectsData.value.forEach(project => {
-    const prediction = project.project_prediction?.[0]
-    if (prediction?.clicks && prediction?.week_day !== undefined) {
-      const dayIndex = Number(prediction.week_day) % 7
-      const dayName = weekdays[dayIndex]
-      const clicks = Number(prediction.clicks) || 0
-      
-      const metrics = weekdayClicks.get(dayName)!
-      metrics.total += clicks
-      metrics.count += 1
-    }
-  })
-  
-  return weekdays.map(day => {
-    const metrics = weekdayClicks.get(day)!
-    return {
-      label: day,
-      value: metrics.count > 0 ? metrics.total / metrics.count : 0,
-      color: getDayColor(day)
-    }
-  })
+const campaignEfficiency = computed(() => {
+  return rawProjectsData.value
+    .map(project => {
+      const prediction = project.project_prediction?.[0]
+      if (prediction?.clicks && prediction?.approved_budget) {
+        const clicks = Number(prediction.clicks) || 0
+        const budget = Number(prediction.approved_budget) || 1
+        const efficiency = budget > 0 ? (clicks / budget * 1000) : 0
+        
+        return {
+          label: project.nombre || 'Campaña Sin Nombre',
+          value: efficiency,
+          color: getCampaignEfficiencyColor(efficiency)
+        }
+      }
+      return null
+    })
+    .filter(item => item !== null)
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 8) // Mostrar solo las 8 campañas más eficientes
 })
 
 function getChannelColor(channel: string): string {
@@ -383,17 +374,12 @@ function getChannelColor(channel: string): string {
   return colors[channel as keyof typeof colors] || '#6366f1'
 }
 
-function getDayColor(day: string): string {
-  const colors = {
-    'Lunes': '#3B82F6',
-    'Martes': '#10B981',
-    'Miércoles': '#F59E0B',
-    'Jueves': '#EF4444',
-    'Viernes': '#8B5CF6',
-    'Sábado': '#06B6D4',
-    'Domingo': '#F97316'
-  }
-  return colors[day as keyof typeof colors] || '#6366f1'
+function getCampaignEfficiencyColor(efficiency: number): string {
+  if (efficiency >= 500) return '#10B981' // Verde para alta eficiencia
+  if (efficiency >= 300) return '#3B82F6' // Azul para buena eficiencia
+  if (efficiency >= 200) return '#F59E0B' // Amarillo para eficiencia media
+  if (efficiency >= 100) return '#EF4444' // Rojo para baja eficiencia
+  return '#6B7280' // Gris para muy baja eficiencia
 }
 
 onMounted(async () => {
@@ -515,7 +501,8 @@ const handleGenerateReport = async () => {
     predictionAccuracy: predictionAccuracy.value,
     channelDistribution: channelDistribution.value,
     channelPerformance: channelPerformance.value,
-    weekdayTrends: weekdayTrends.value
+    weekdayTrends: [], // Manteniendo compatibilidad con el generador de reportes
+    campaignEfficiency: campaignEfficiency.value
   }
 
   const result = await generateReport(dashboardData)
